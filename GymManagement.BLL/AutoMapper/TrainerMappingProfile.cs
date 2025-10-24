@@ -19,6 +19,8 @@ namespace GymManagement.BLL.AutoMapper
                  .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                  .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                  .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone))
+                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth.ToString()))
+                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => $"{src.Adderss.BuildingNumber} - {src.Adderss.Street} - {src.Adderss.City}"))
                  .ForMember(dest => dest.Specialties, opt => opt.MapFrom(src => src.Specialties.ToString()))
                  .ReverseMap();
 
@@ -36,7 +38,7 @@ namespace GymManagement.BLL.AutoMapper
             CreateMap<CreateTrainerViewModel, Address>()
             .ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.BuildingNumber))
             .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
-            .ForMember(dest => dest.Streat, opt => opt.MapFrom(src => src.Streat))
+            .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Street))
             .ReverseMap();
 
             CreateMap<UpdateTrainerViewModel, Trainer>()
@@ -45,16 +47,14 @@ namespace GymManagement.BLL.AutoMapper
                  .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                  .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                  .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone))
-                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
-                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                  .ForMember(dest => dest.Adderss, opt => opt.MapFrom(src => src))
                  .ForMember(dest => dest.Updated_at, opt => opt.MapFrom(src => DateTime.Now))
                 .ReverseMap();
             CreateMap<UpdateTrainerViewModel, Address>()
-.ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.BuildingNumber))
-.ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
-.ForMember(dest => dest.Streat, opt => opt.MapFrom(src => src.Streat))
-.ReverseMap();
+                .ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.BuildingNumber))
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
+                .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Street))
+                .ReverseMap();
         }
     }
 }

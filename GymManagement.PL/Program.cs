@@ -21,19 +21,19 @@ namespace GymManagement.PL
 
             builder.Services.AddDbContext<GymDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("GymManagementConnectionString"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("GymManagementConnectionString"))
+                .UseLazyLoadingProxies();
             });
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
             builder.Services.AddScoped<IMemberService, MemberService>();
+            builder.Services.AddScoped<ITrainerService, TrainerService>();
+            builder.Services.AddScoped<IPlanService, PlanService>();
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews(options =>
-            {
-                options.Filters.Add<GlobalExceptionFilter>();
-            });
+            builder.Services.AddControllersWithViews();
 
             builder.Services.AddAutoMapper(cfg =>
             {

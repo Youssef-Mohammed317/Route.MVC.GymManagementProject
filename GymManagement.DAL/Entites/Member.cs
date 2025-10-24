@@ -15,15 +15,15 @@ namespace GymManagement.DAL.Entites
         #region RelationShips
 
         #region Member - HealthRecord
-        public HealthRecord HealthRecord { get; set; } = null!;
+        public virtual HealthRecord HealthRecord { get; set; } = null!;
 
         #endregion
         #region Member -MemberShip
 
-        public ICollection<MemberShip> MemberShips { get; set; } = null!;
+        public virtual ICollection<MemberShip> MemberShips { get; set; } = null!;
         #endregion
         #region Member MemberSession
-        public ICollection<MemberSession> MemberSessions { get; set; } = null!;
+        public virtual ICollection<MemberSession> MemberSessions { get; set; } = null!;
         #endregion
         #endregion
     }

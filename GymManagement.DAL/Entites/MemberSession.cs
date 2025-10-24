@@ -12,9 +12,9 @@ namespace GymManagement.DAL.Entites
         public bool IsAttended { get; set; }
 
         public int MemberId { get; set; }
-        public Member Member { get; set; }
+        public virtual Member Member { get; set; }
 
-        public Session Session { get; set; }
+        public virtual Session Session { get; set; }
         public int SessionId { get; set; }
     }
 }

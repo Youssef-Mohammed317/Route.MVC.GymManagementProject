@@ -14,7 +14,7 @@ namespace GymManagement.DAL.Entites
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
 
-        public ICollection<MemberShip> PlanMembers { get; set; } = null!;
+        public virtual ICollection<MemberShip> PlanMembers { get; set; } = null!;
 
     }
 }

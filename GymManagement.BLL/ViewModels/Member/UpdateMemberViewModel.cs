@@ -1,5 +1,6 @@
 ﻿using GymManagement.BLL.ViewModels.Common;
 using GymManagement.DAL.Entites.Enums;
+using GymManagement.PL.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

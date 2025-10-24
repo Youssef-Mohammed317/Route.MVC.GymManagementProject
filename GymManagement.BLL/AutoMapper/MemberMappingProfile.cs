@@ -45,7 +45,7 @@ namespace GymManagement.BLL.AutoMapper
             CreateMap<CreateMemberViewModel, Address>()
                 .ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.BuildingNumber))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
-                .ForMember(dest => dest.Streat, opt => opt.MapFrom(src => src.Streat))
+                .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Street))
                 .ReverseMap();
 
             CreateMap<CreateMemberViewModel, HealthRecord>()
@@ -70,7 +70,7 @@ namespace GymManagement.BLL.AutoMapper
             CreateMap<UpdateMemberViewModel, Address>()
             .ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.BuildingNumber))
             .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
-            .ForMember(dest => dest.Streat, opt => opt.MapFrom(src => src.Street))
+            .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Street))
             .ReverseMap();
         }
     }

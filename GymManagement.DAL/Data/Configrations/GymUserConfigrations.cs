@@ -40,7 +40,7 @@ namespace GymManagement.DAL.Data.Configrations
 
             builder.OwnsOne(x => x.Adderss, addressBuilder =>
             {
-                addressBuilder.Property(x => x.Streat)
+                addressBuilder.Property(x => x.Street)
                             .HasColumnName("Streat")
                             .HasColumnType("varchar")
                             .HasMaxLength(30);

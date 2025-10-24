@@ -1,5 +1,6 @@
 ﻿using GymManagement.BLL.ViewModels.Common;
 using GymManagement.DAL.Entites.Enums;
+using GymManagement.PL.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -43,7 +44,7 @@ namespace GymManagement.BLL.ViewModels.Member
 
         [Required(ErrorMessage = "Street Is Required")]
         [StringLength(30, MinimumLength = 2, ErrorMessage = "Street Must Be Between 2 and 30 char")]
-        public string Streat { get; set; } = null!;
+        public string Street { get; set; } = null!;
 
         [Required(ErrorMessage = "City Is Required")]
         [StringLength(30, MinimumLength = 2, ErrorMessage = "Name Must Be between 2 and 30 char")]

@@ -18,18 +18,18 @@ namespace GymManagement.DAL.Entites
         #region Relationships
 
         #region Category - Session
-        public Category SessionCategory { get; set; } = null!;
+        public virtual Category SessionCategory { get; set; } = null!;
 
         public int CategoryId { get; set; }
         #endregion
 
         #region Session - Trainer
-        public Trainer SessionTrainer { get; set; } = null!;
+        public virtual Trainer SessionTrainer { get; set; } = null!;
         public int TrainerId { get; set; }
         #endregion
 
         #region Session MemberSession
-        public ICollection<MemberSession> SessionMembers { get; set; } = null;
+        public virtual ICollection<MemberSession> SessionMembers { get; set; } = null;
         #endregion
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using GymManagement.BLL.Interfaces;
+using GymManagement.BLL.ViewModels.Common;
 using GymManagement.BLL.ViewModels.Trainer;
 using GymManagement.DAL.Entites;
 using GymManagement.DAL.Entites.Enums;
@@ -24,27 +25,22 @@ namespace GymManagement.BLL.Services
             mapper = _mapper;
         }
 
-        public TrainerViewModel CreateTrainer(CreateTrainerViewModel createTrainerViewModel)
+        public ViewResponse<TrainerViewModel> CreateTrainer(CreateTrainerViewModel createTrainerViewModel)
         {
+            var trainer = mapper.Map<Trainer>(createTrainerViewModel);
 
-            bool isEmailOrPhoneExist = CheckEmailAndPhoneExist(createTrainerViewModel.Email, createTrainerViewModel.Phone);
+            unitOfWork.TrainerRepository.Create(trainer);
 
-            var values = Enum.GetValues(typeof(Specialties));
-
-            if (!isEmailOrPhoneExist && !(values.Length > 1))
+            if (unitOfWork.SaveChanges() > 0)
             {
-                var trainer = mapper.Map<Trainer>(createTrainerViewModel);
-
-                unitOfWork.TrainerRepository.Create(trainer);
-
-                unitOfWork.SaveChanges();
-
-                return mapper.Map<TrainerViewModel>(trainer);
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                    "Trainer created successfully");
             }
-            return null!;
+
+            return ViewResponse<TrainerViewModel>.Fail("Failed to create trainer");
         }
 
-        public TrainerViewModel DeleteById(int id)
+        public ViewResponse<TrainerViewModel> DeleteById(int id)
         {
             var trainer = unitOfWork.TrainerRepository.GetById(id);
 
@@ -53,12 +49,16 @@ namespace GymManagement.BLL.Services
                 if (!HasFutureSession(trainer))
                 {
                     unitOfWork.TrainerRepository.Delete(trainer);
-                    unitOfWork.SaveChanges();
 
-                    return mapper.Map<TrainerViewModel>(trainer);
+                    if (unitOfWork.SaveChanges() > 0)
+                    {
+                        return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                            "Trainer deleted successfully");
+                    }
                 }
+                return ViewResponse<TrainerViewModel>.Fail("Trainer Has Future Sessions");
             }
-            return null!;
+            return ViewResponse<TrainerViewModel>.Fail("Trainer Not Found");
         }
         private bool HasFutureSession(Trainer trainer)
         {
@@ -72,92 +72,87 @@ namespace GymManagement.BLL.Services
             }
             return false;
         }
-        public IEnumerable<TrainerViewModel> GetAllTrainers()
+        public ViewResponse<IEnumerable<TrainerViewModel>> GetAllTrainers()
         {
             var trainers = unitOfWork.TrainerRepository.GetAll()
                 .ProjectTo<TrainerViewModel>(mapper.ConfigurationProvider);
 
-            return trainers;
+            return ViewResponse<IEnumerable<TrainerViewModel>>.Success(trainers);
         }
 
-        public TrainerViewModel GetByEmail(string email)
+        public ViewResponse<TrainerViewModel> GetByEmail(string email)
         {
             var trainer = unitOfWork.TrainerRepository.GetByEmail(email);
 
             if (trainer != null)
             {
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                    "Trainer Found");
 
-                return mapper.Map<TrainerViewModel>(trainer);
             }
-            else
-            {
-                return null!;
-            }
+            return ViewResponse<TrainerViewModel>.Fail("Trainer Not Found");
         }
 
-        public TrainerViewModel GetById(int id)
+        public ViewResponse<TrainerViewModel> GetById(int id)
         {
             var trainer = unitOfWork.TrainerRepository.GetById(id);
             if (trainer is not null)
             {
-                return mapper.Map<TrainerViewModel>(trainer);
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                   "Trainer Found");
+
             }
-            else
-            {
-                return null!;
-            }
+            return ViewResponse<TrainerViewModel>.Fail("Trainer Not Found");
         }
 
-        public TrainerViewModel GetByPhone(string phone)
+        public ViewResponse<TrainerViewModel> GetByPhone(string phone)
         {
             var trainer = unitOfWork.TrainerRepository.GetByPhone(phone);
             if (trainer is not null)
             {
-                return mapper.Map<TrainerViewModel>(trainer);
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                        "Trainer Found");
+
             }
-            else
-            {
-                return null!;
-            }
+            return ViewResponse<TrainerViewModel>.Fail("Trainer Not Found");
         }
-        public TrainerViewModel UpdateTrainer(int id, CreateTrainerViewModel updateTrainerViewModel)
+        public ViewResponse<TrainerViewModel> UpdateTrainer(int id, UpdateTrainerViewModel updateTrainerViewModel)
         {
-            var trainer = unitOfWork.TrainerRepository.GetByEmail(updateTrainerViewModel.Email);
+            var trainer = unitOfWork.TrainerRepository.GetById(id);
+
+            if (trainer == null)
+            {
+                return ViewResponse<TrainerViewModel>.Fail("Trainer not found");
+            }
+
+            trainer = mapper.Map(updateTrainerViewModel, trainer);
+
+            unitOfWork.TrainerRepository.Update(trainer);
+
+            if (unitOfWork.SaveChanges() > 0)
+            {
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                    "Trainer updated successfully");
+            }
+
+            return ViewResponse<TrainerViewModel>.Fail("Failed to update trainer");
+        }
+
+        public ViewResponse<UpdateTrainerViewModel> GetTrainerByIdForUpdate(int id)
+        {
+            var trainer = unitOfWork.TrainerRepository.GetById(id);
+
             if (trainer != null)
             {
-                if (trainer.Id == id)
-                {
-                    trainer = unitOfWork.TrainerRepository.GetByPhone(updateTrainerViewModel.Phone);
-                    if (trainer is not null)
-                    {
-                        if (trainer.Id == id)
-                        {
-                            var values = Enum.GetValues(typeof(Specialties));
-
-                            if (!(values.Length > 1))
-                            {
-                                trainer = mapper.Map(updateTrainerViewModel, trainer);
-
-                                unitOfWork.TrainerRepository.Update(trainer);
-
-                                unitOfWork.SaveChanges();
-
-                                return mapper.Map<TrainerViewModel>(trainer);
-                            }
-                        }
-                    }
-                }
+                return ViewResponse<UpdateTrainerViewModel>.Success(
+                    mapper.Map<UpdateTrainerViewModel>(trainer),
+                    "Trainer Found");
             }
-            return null!;
+            return ViewResponse<UpdateTrainerViewModel>.Fail("Trainer Not Found");
         }
-        private bool CheckEmailAndPhoneExist(string email, string phone)
-        {
-            if (unitOfWork.TrainerRepository.GetByEmail(email) != null
-                && unitOfWork.TrainerRepository.GetByPhone(phone) != null)
-            {
-                return true;
-            }
-            return false;
-        }
+
+
     }
 }
+
+

@@ -12,6 +12,6 @@ namespace GymManagement.DAL.Entites
         // HireDate => Create_at
         public Specialties Specialties { get; set; }
 
-        public ICollection<Session> TrainerSessions { get; set; } = null!;
+        public virtual ICollection<Session> TrainerSessions { get; set; } = null!;
     }
 }

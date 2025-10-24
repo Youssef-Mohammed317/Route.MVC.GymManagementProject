@@ -11,7 +11,9 @@ namespace GymManagement.PL.Common
             {
                 var actionName = context.ActionDescriptor.RouteValues["action"];
 
-                var model = context.ActionArguments.Values.FirstOrDefault();
+                var model = context.ActionArguments
+                    .Values
+                    .FirstOrDefault(v => v != null && !v.GetType().IsPrimitive && v.GetType() != typeof(string));
 
                 context.Result = new ViewResult
                 {

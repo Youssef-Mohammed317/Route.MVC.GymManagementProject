@@ -93,18 +93,21 @@ namespace GymManagement.BLL.Services
         public ViewResponse<MemberViewModel> UpdateMember(int id, UpdateMemberViewModel updateMemberViewModel)
         {
             var member = unitOfWork.MemberRepository.GetById(id);
-            if (member != null)
+
+
+            if (member == null)
             {
-                member = mapper.Map(updateMemberViewModel, member);
-
-                member = unitOfWork.MemberRepository.Update(member);
-                if (unitOfWork.SaveChanges() > 0)
-                {
-                    return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(member),
-                             "Member updated successfully");
-                }
-
+                return ViewResponse<MemberViewModel>.Fail("Member not found");
             }
+            member = mapper.Map(updateMemberViewModel, member);
+
+            member = unitOfWork.MemberRepository.Update(member);
+            if (unitOfWork.SaveChanges() > 0)
+            {
+                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(member),
+                         "Member updated successfully");
+            }
+
             return ViewResponse<MemberViewModel>.Fail("Failed to update this mamber");
         }
 

@@ -25,9 +25,9 @@ namespace GymManagement.DAL.Entites
                 }
             }
         }
-        public Member Member { get; set; } = null!;
+        public virtual Member Member { get; set; } = null!;
         public int MemberId { get; set; }
-        public Plan Plan { get; set; } = null!;
+        public virtual Plan Plan { get; set; } = null!;
         public int PlanId { get; set; }
 
 

@@ -1,4 +1,5 @@
-﻿using GymManagement.BLL.ViewModels.Plan;
+﻿using GymManagement.BLL.ViewModels.Common;
+using GymManagement.BLL.ViewModels.Plan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,10 @@ namespace GymManagement.BLL.Interfaces
 {
     public interface IPlanService
     {
-        IEnumerable<PlanViewModel> GetAllPlans();
-        PlanViewModel GetById(int id);
-        PlanViewModel UpdatePlan(int id,UpdatePlanViewModel updatePlanViewModel);
-        PlanViewModel TogglePlan(int id);
+        ViewResponse<IEnumerable<PlanViewModel>> GetAllPlans();
+        ViewResponse<PlanViewModel> GetById(int id);
+        ViewResponse<UpdatePlanViewModel> GetPlanByIdForUpdate(int id);
+        ViewResponse<PlanViewModel> UpdatePlan(int id, UpdatePlanViewModel updatePlanViewModel);
+        ViewResponse<PlanViewModel> TogglePlan(int id);
     }
 }

@@ -10,6 +10,6 @@ namespace GymManagement.DAL.Entites
     {
         public string CategoryName { get; set; } = null!;
 
-        public ICollection<Session> Sessions { get; set; } = null!;
+        public virtual ICollection<Session> Sessions { get; set; } = null!;
     }
 }
