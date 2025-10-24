@@ -6,7 +6,9 @@ using GymManagement.DAL.Data.Context;
 using GymManagement.DAL.Data.DataSeed;
 using GymManagement.DAL.Repositories.Implementations;
 using GymManagement.DAL.Repositories.Interfaces;
+using GymManagement.PL.Common;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace GymManagement.PL
 {
@@ -25,18 +27,19 @@ namespace GymManagement.PL
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+            builder.Services.AddScoped<IMemberService, MemberService>();
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<GlobalExceptionFilter>();
+            });
 
             builder.Services.AddAutoMapper(cfg =>
             {
                 cfg.AddMaps(typeof(SessionMappingProfile).Assembly);
             });
             //builder.Services.AddAutoMapper(cfg => AppDomain.CurrentDomain.GetAssemblies());
-
-
-
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())

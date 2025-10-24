@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GymManagement.BLL.ViewModels.Member
 {
-    public class MemberHealthRecordViewModel
+    public class CreateMemberHealthRecordViewModel
     {
         [Required(ErrorMessage = "Height Is Required")]
         [Range(0.1, 300, ErrorMessage = "Height Must Be between 0.1 and 300")]
@@ -18,7 +18,7 @@ namespace GymManagement.BLL.ViewModels.Member
         [Required(ErrorMessage = "BloodType Is Required")]
         [StringLength(30, MinimumLength = 2, ErrorMessage = "BloodType Must Be between 2 and 30 char")]
 
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "BloodType Can Only Contain Letters")]
+        [RegularExpression(@"^(A|B|AB|O)[+-]$", ErrorMessage = "Blood type must include + or - sign (e.g., A+, O-)")]
         public string BloodType { get; set; } = null!;
         public string? Note { get; set; }
     }

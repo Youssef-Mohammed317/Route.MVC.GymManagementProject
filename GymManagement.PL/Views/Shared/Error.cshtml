@@ -23,3 +23,15 @@
     For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
     and restarting the app.
 </p>
+@* 
+
+<div class="text-center mt-5">
+    <h1 class="text-danger">Oops! Something went wrong 😞</h1>
+    <p>@ViewData["ExceptionMessage"]</p>
+
+    #if DEBUG
+    <pre>@ViewData["StackTrace"]</pre>
+    #endif
+
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">Back to Home</a>
+</div> *@

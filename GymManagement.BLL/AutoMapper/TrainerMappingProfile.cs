@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GymManagement.BLL.ViewModels.Member;
 using GymManagement.BLL.ViewModels.Trainer;
 using GymManagement.DAL.Entites;
 using System;
@@ -28,11 +29,15 @@ namespace GymManagement.BLL.AutoMapper
                  .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone))
                  .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
                  .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
-                 .ForMember(dest => dest.Adderss.BuildingNumber, opt => opt.MapFrom(src => src.BuildingNumber))
-                 .ForMember(dest => dest.Adderss.City, opt => opt.MapFrom(src => src.City))
-                 .ForMember(dest => dest.Adderss.Streat, opt => opt.MapFrom(src => src.Streat))
+                 .ForMember(dest => dest.Adderss, opt => opt.MapFrom(src => src))
                  .ForMember(dest => dest.Created_at, opt => opt.MapFrom(src => DateTime.Now))
                 .ReverseMap();
+
+            CreateMap<CreateTrainerViewModel, Address>()
+            .ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.BuildingNumber))
+            .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
+            .ForMember(dest => dest.Streat, opt => opt.MapFrom(src => src.Streat))
+            .ReverseMap();
 
             CreateMap<UpdateTrainerViewModel, Trainer>()
                  .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -42,11 +47,14 @@ namespace GymManagement.BLL.AutoMapper
                  .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone))
                  .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
                  .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
-                 .ForMember(dest => dest.Adderss.BuildingNumber, opt => opt.MapFrom(src => src.BuildingNumber))
-                 .ForMember(dest => dest.Adderss.City, opt => opt.MapFrom(src => src.City))
-                 .ForMember(dest => dest.Adderss.Streat, opt => opt.MapFrom(src => src.Streat))
+                 .ForMember(dest => dest.Adderss, opt => opt.MapFrom(src => src))
                  .ForMember(dest => dest.Updated_at, opt => opt.MapFrom(src => DateTime.Now))
                 .ReverseMap();
+            CreateMap<UpdateTrainerViewModel, Address>()
+.ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.BuildingNumber))
+.ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
+.ForMember(dest => dest.Streat, opt => opt.MapFrom(src => src.Streat))
+.ReverseMap();
         }
     }
 }

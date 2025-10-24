@@ -37,17 +37,6 @@ namespace GymManagement.DAL.Repositories.Implementations
                 return categoryRepository;
             }
         }
-        public IHealthRecordRepository HealthRecordRepository
-        {
-            get
-            {
-                if (healthRecordRepository == null)
-                {
-                    return new HealthRecordRepository(context);
-                }
-                return healthRecordRepository;
-            }
-        }
         public IMemberRepository MemberRepository
         {
             get

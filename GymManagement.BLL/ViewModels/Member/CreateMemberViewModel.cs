@@ -1,4 +1,5 @@
-﻿using GymManagement.DAL.Entites.Enums;
+﻿using GymManagement.BLL.ViewModels.Common;
+using GymManagement.DAL.Entites.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,12 +20,14 @@ namespace GymManagement.BLL.ViewModels.Member
         [EmailAddress(ErrorMessage = "Invaild Email Format")]
         [DataType(DataType.EmailAddress)]
         [StringLength(100, MinimumLength = 5, ErrorMessage = "Email Must Be Between 5 and 100 char")]
+        [UniqueEmail]
         public string Email { get; set; } = null!;
 
         [Required(ErrorMessage = "Phone Is Required")]
         [Phone(ErrorMessage = "Invaild Phone Format")]
-        [RegularExpression(@"^[(010|011|012|015)\d{8}]$", ErrorMessage = "Phone Must Be Vaild Egyption Number")]
+        [RegularExpression(@"^(010|011|012|015)\d{8}$", ErrorMessage = "Phone Must Be Vaild Egyption Number")]
         [DataType(DataType.PhoneNumber)]
+        [UniquePhone]
         public string Phone { get; set; } = null!;
 
         [Required(ErrorMessage = "Date Of Birth Is Required")]
@@ -48,7 +51,7 @@ namespace GymManagement.BLL.ViewModels.Member
         public string City { get; set; } = null!;
 
         [Required(ErrorMessage = "Health Record Is Required")]
-        public MemberHealthRecordViewModel HealthRecord { get; set; }
+        public CreateMemberHealthRecordViewModel HealthRecord { get; set; }
         public string? Photo { get; set; }
     }
 }

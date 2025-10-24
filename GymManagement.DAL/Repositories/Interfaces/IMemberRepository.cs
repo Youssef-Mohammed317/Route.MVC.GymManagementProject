@@ -11,6 +11,7 @@ namespace GymManagement.DAL.Repositories.Interfaces
     public interface IMemberRepository : IGenericRepository<Member>
     {
 
+        public HealthRecord? GetHealthRecordByMemberId(int id);
         public Member? GetByEmail(string email);
         public Member? GetByPhone(string phone);
     }

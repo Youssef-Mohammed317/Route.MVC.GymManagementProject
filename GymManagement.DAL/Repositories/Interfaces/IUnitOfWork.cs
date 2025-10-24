@@ -13,7 +13,6 @@ namespace GymManagement.DAL.Repositories.Interfaces
         public int SaveChanges();
 
         public ICategoryRepository CategoryRepository { get; }
-        public IHealthRecordRepository HealthRecordRepository { get; }
         public IMemberRepository MemberRepository { get; }
         public IMemberSessionRepository MemberSessionRepository { get; }
         public IMemberShipRepository MemberShipRepository { get; }

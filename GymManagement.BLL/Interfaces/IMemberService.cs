@@ -1,4 +1,5 @@
-﻿using GymManagement.BLL.ViewModels.Member;
+﻿using GymManagement.BLL.ViewModels.Common;
+using GymManagement.BLL.ViewModels.Member;
 using GymManagement.DAL.Entites;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,14 @@ namespace GymManagement.BLL.Interfaces
 {
     public interface IMemberService
     {
-        IEnumerable<MemberViewModel> GetAllMembers();
-
-        MemberViewModel CreateMember(CreateMemberViewModel createMemberViewModel);
-
-        MemberViewModel GetById(int id);
-        MemberViewModel GetByEmail(string email);
-        MemberViewModel GetByPhone(string phone);
-        MemberViewModel UpdateMember(int id, UpdateMemberViewModel updateMemberViewModel);
-        MemberViewModel DeleteById(int id);
+        ViewResponse<IEnumerable<MemberViewModel>> GetAllMembers();
+        ViewResponse<MemberViewModel> CreateMember(CreateMemberViewModel createMemberViewModel);
+        ViewResponse<MemberViewModel> GetById(int id);
+        ViewResponse<HealthRecordViewModel> GetHealthRecordByMemberId(int id);
+        ViewResponse<UpdateMemberViewModel> GetMemberByIdForUpdate(int id);
+        ViewResponse<MemberViewModel> GetByEmail(string email);
+        ViewResponse<MemberViewModel> GetByPhone(string phone);
+        ViewResponse<MemberViewModel> UpdateMember(int id, UpdateMemberViewModel updateMemberViewModel);
+        ViewResponse<MemberViewModel> DeleteById(int id);
     }
 }

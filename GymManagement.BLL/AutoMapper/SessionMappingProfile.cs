@@ -13,7 +13,7 @@ namespace GymManagement.BLL.AutoMapper
 {
     public class SessionMappingProfile : Profile
     {
-        public SessionMappingProfile(IUnitOfWork unitOfWork)
+        public SessionMappingProfile()
         {
             CreateMap<Session, SessionViewModel>()
                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -23,8 +23,7 @@ namespace GymManagement.BLL.AutoMapper
                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
                .ForMember(dest => dest.Capacity, opt => opt.MapFrom(src => src.Capacity))
-               .ForMember(dest => dest.AvailableSlots, opt => opt.MapFrom(src => src.Capacity - unitOfWork.MemberSessionRepository.GetAll()
-                      .Where(ms => ms.SessionId == src.Id).Count()))
+               .ForMember(dest => dest.AvailableSlots, opt => opt.MapFrom<AvailableSlotsResolver>())
                .ReverseMap();
 
 
