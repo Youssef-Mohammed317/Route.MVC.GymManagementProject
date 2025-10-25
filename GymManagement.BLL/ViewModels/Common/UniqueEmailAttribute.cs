@@ -31,7 +31,7 @@ namespace GymManagement.PL.Common
                     int.TryParse(idValue.ToString(), out currentId);
             }
 
-            var memberResponse = memberService.GetByEmail(email!);
+            var memberResponse = memberService.GetMemberByEmail(email!);
             if (memberResponse.IsSuccess)
             {
                 bool isSameEntity = currentEntityType.Contains("member");
@@ -41,7 +41,7 @@ namespace GymManagement.PL.Common
                 }
             }
 
-            var trainerResponse = trainerService.GetByEmail(email!);
+            var trainerResponse = trainerService.GetTrainerByEmail(email!);
             if (trainerResponse.IsSuccess)
             {
                 bool isSameEntity = currentEntityType.Contains("trainer");

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymManagement.DAL.Entites
+namespace GymManagement.BLL.ViewModels.Membership
 {
-    public class Membership : BaseEntity
+    public class MembershipViewModel
     {
+        public int Id { get; set; }
+        public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        // created_at => startdate
-
         public string Status
         {
             get
@@ -25,10 +25,7 @@ namespace GymManagement.DAL.Entites
                 }
             }
         }
-        public virtual Member Member { get; set; } = null!;
         public int MemberId { get; set; }
-        public virtual Plan Plan { get; set; } = null!;
         public int PlanId { get; set; }
-
     }
 }

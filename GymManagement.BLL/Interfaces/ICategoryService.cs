@@ -10,6 +10,6 @@ namespace GymManagement.BLL.Interfaces
 {
     public interface ICategoryService
     {
-        ViewResponse<IEnumerable<CategoryViewModel>> GetAllCategories();
+        ViewResponse<IEnumerable<CategorySelectModel>> GetAllCategories();
     }
 }

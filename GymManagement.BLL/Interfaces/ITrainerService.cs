@@ -13,12 +13,12 @@ namespace GymManagement.BLL.Interfaces
     {
         ViewResponse<IEnumerable<TrainerViewModel>> GetAllTrainers();
 
-        ViewResponse<TrainerViewModel> CreateTrainer(CreateTrainerViewModel createTrainerViewModel);
-        ViewResponse<TrainerViewModel> GetById(int id);
-        ViewResponse<TrainerViewModel>  GetByEmail(string email);
-        ViewResponse<TrainerViewModel>  GetByPhone(string phone);
+        ViewResponse<TrainerViewModel> CreateTrainer(CreateTrainerViewModel createModel);
+        ViewResponse<TrainerViewModel> GetTrainerById(int id);
+        ViewResponse<TrainerViewModel> GetTrainerByEmail(string email);
+        ViewResponse<TrainerViewModel> GetTrainerByPhone(string phone);
         ViewResponse<UpdateTrainerViewModel> GetTrainerByIdForUpdate(int id);
-        ViewResponse<TrainerViewModel>  UpdateTrainer(int id, UpdateTrainerViewModel createTrainerViewModel);
-        ViewResponse<TrainerViewModel>  DeleteById(int id);
+        ViewResponse<TrainerViewModel> UpdateTrainer(int id, UpdateTrainerViewModel updateModel);
+        ViewResponse<TrainerViewModel> DeleteById(int id);
     }
 }

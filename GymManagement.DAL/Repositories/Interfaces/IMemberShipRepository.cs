@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GymManagement.DAL.Repositories.Interfaces
 {
-    public interface IMemberShipRepository : IGenericRepository<MemberShip>
+    public interface IMembershipRepository : IGenericRepository<Membership>
     {
     }
 }

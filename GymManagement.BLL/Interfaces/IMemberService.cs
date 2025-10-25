@@ -12,13 +12,13 @@ namespace GymManagement.BLL.Interfaces
     public interface IMemberService
     {
         ViewResponse<IEnumerable<MemberViewModel>> GetAllMembers();
-        ViewResponse<MemberViewModel> CreateMember(CreateMemberViewModel createMemberViewModel);
-        ViewResponse<MemberViewModel> GetById(int id);
+        ViewResponse<MemberViewModel> CreateMember(CreateMemberViewModel createModel);
+        ViewResponse<MemberViewModel> GetMemberById(int id);
         ViewResponse<HealthRecordViewModel> GetHealthRecordByMemberId(int id);
         ViewResponse<UpdateMemberViewModel> GetMemberByIdForUpdate(int id);
-        ViewResponse<MemberViewModel> GetByEmail(string email);
-        ViewResponse<MemberViewModel> GetByPhone(string phone);
-        ViewResponse<MemberViewModel> UpdateMember(int id, UpdateMemberViewModel updateMemberViewModel);
+        ViewResponse<MemberViewModel> GetMemberByEmail(string email);
+        ViewResponse<MemberViewModel> GetMemberByPhone(string phone);
+        ViewResponse<MemberViewModel> UpdateMember(int id, UpdateMemberViewModel updateModel);
         ViewResponse<MemberViewModel> DeleteById(int id);
     }
 }

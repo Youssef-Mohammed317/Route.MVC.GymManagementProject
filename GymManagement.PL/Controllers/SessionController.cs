@@ -1,4 +1,5 @@
 ﻿using GymManagement.BLL.Interfaces;
+using GymManagement.BLL.Services;
 using GymManagement.BLL.ViewModels.Member;
 using GymManagement.BLL.ViewModels.SessionViewModel;
 using GymManagement.PL.Common;
@@ -10,16 +11,11 @@ namespace GymManagement.PL.Controllers
     public class SessionController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly ICategoryService categoryService;
-        private readonly ITrainerService trainerService;
 
-        public SessionController(ISessionService _sessionService,
-            ICategoryService _categoryService,
-            ITrainerService _trainerService)
+        public SessionController(ISessionService _sessionService)
         {
             sessionService = _sessionService;
-            categoryService = _categoryService;
-            trainerService = _trainerService;
+
         }
         [HttpGet]
         // GET: Session/Index
@@ -53,19 +49,18 @@ namespace GymManagement.PL.Controllers
         // GET: Session/Create
         public IActionResult Create()
         {
-            ViewBag.Categories = categoryService.GetAllCategories().Data;
-            ViewBag.Trainers = trainerService.GetAllTrainers().Data;
+            var response = sessionService.GetDataForCreateSession();
             ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? "";
             ViewBag.ErrorMessage = TempData["ErrorMessage"] ?? "";
-            return View();
+            return View(response.Data);
         }
 
         [HttpPost]
         [ValidateModel]
         // POST: Session/Create
-        public IActionResult Create([FromForm] CreateSessionViewModel model)
+        public IActionResult Create([FromForm] CreateSessionViewModel createModel)
         {
-            var response = sessionService.CreateSession(model);
+            var response = sessionService.CreateSession(createModel);
 
             if (response.IsSuccess)
             {
@@ -75,7 +70,7 @@ namespace GymManagement.PL.Controllers
             else
             {
                 TempData["ErrorMessage"] = response.Message;
-                return View(model);
+                return View(createModel);
             }
         }
 
@@ -84,7 +79,6 @@ namespace GymManagement.PL.Controllers
         public IActionResult Edit([FromRoute] int id)
         {
             var response = sessionService.GetSessionByIdForUpdate(id);
-            ViewBag.Trainers = trainerService.GetAllTrainers().Data;
             if (response.IsSuccess)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? response.Message ?? "";
@@ -100,10 +94,10 @@ namespace GymManagement.PL.Controllers
         [HttpPost]
         [ValidateModel]
         // POST: Session/Edit/5
-        public IActionResult Edit([FromRoute] int id, [FromForm] UpdateSessionViewModel model)
+        public IActionResult Edit([FromRoute] int id, [FromForm] UpdateSessionViewModel updateModel)
         {
 
-            var response = sessionService.UpdateSession(id, model);
+            var response = sessionService.UpdateSession(id, updateModel);
 
             if (response.IsSuccess)
             {
@@ -113,7 +107,7 @@ namespace GymManagement.PL.Controllers
             else
             {
                 TempData["ErrorMessage"] = response.Message;
-                return View(model);
+                return View(updateModel);
             }
         }
 

@@ -25,7 +25,6 @@ namespace GymManagement.BLL.Services
             mapper = _mapper;
         }
 
-
         public ViewResponse<IEnumerable<MemberViewModel>> GetAllMembers()
         {
             var members = unitOfWork.MemberRepository.GetAll()
@@ -37,74 +36,74 @@ namespace GymManagement.BLL.Services
             return ViewResponse<IEnumerable<MemberViewModel>>.Success(members);
         }
 
-        public ViewResponse<MemberViewModel> CreateMember(CreateMemberViewModel createMemberViewModel)
+        public ViewResponse<MemberViewModel> CreateMember(CreateMemberViewModel createModel)
         {
-            var member = mapper.Map<CreateMemberViewModel, Member>(createMemberViewModel);
+            var memberModel = mapper.Map<CreateMemberViewModel, Member>(createModel);
 
-            member = unitOfWork.MemberRepository.Create(member);
+            memberModel = unitOfWork.MemberRepository.Create(memberModel);
 
             if (unitOfWork.SaveChanges() > 0)
             {
-                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(member), "Member created successfully");
+                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(memberModel), "Member created successfully");
             }
 
             return ViewResponse<MemberViewModel>.Fail("Failed to create member");
         }
 
-        public ViewResponse<MemberViewModel> GetById(int id)
+        public ViewResponse<MemberViewModel> GetMemberById(int id)
         {
-            var member = unitOfWork.MemberRepository.GetById(id);
+            var memberModel = unitOfWork.MemberRepository.GetById(id);
 
-            if (member != null)
+            if (memberModel != null)
             {
-                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(member),
+                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(memberModel),
                     "Member Found");
 
             }
             return ViewResponse<MemberViewModel>.Fail("Member Not Found");
         }
 
-        public ViewResponse<MemberViewModel> GetByEmail(string email)
+        public ViewResponse<MemberViewModel> GetMemberByEmail(string email)
         {
-            var member = unitOfWork.MemberRepository.GetByEmail(email);
+            var memberModel = unitOfWork.MemberRepository.GetByEmail(email);
 
-            if (member != null)
+            if (memberModel != null)
             {
-                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(member),
+                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(memberModel),
                     "Member Found");
 
             }
             return ViewResponse<MemberViewModel>.Fail("Member Not Found");
         }
 
-        public ViewResponse<MemberViewModel> GetByPhone(string phone)
+        public ViewResponse<MemberViewModel> GetMemberByPhone(string phone)
         {
-            var member = unitOfWork.MemberRepository.GetByPhone(phone);
+            var memberModel = unitOfWork.MemberRepository.GetByPhone(phone);
 
-            if (member != null)
+            if (memberModel != null)
             {
-                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(member),
+                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(memberModel),
                     "Member Found");
 
             }
             return ViewResponse<MemberViewModel>.Fail("Member Not Found");
         }
 
-        public ViewResponse<MemberViewModel> UpdateMember(int id, UpdateMemberViewModel updateMemberViewModel)
+        public ViewResponse<MemberViewModel> UpdateMember(int id, UpdateMemberViewModel updateModel)
         {
-            var member = unitOfWork.MemberRepository.GetById(id);
+            var memberModel = unitOfWork.MemberRepository.GetById(id);
 
 
-            if (member == null)
+            if (memberModel == null)
             {
                 return ViewResponse<MemberViewModel>.Fail("Member not found");
             }
-            member = mapper.Map(updateMemberViewModel, member);
+            memberModel = mapper.Map(updateModel, memberModel);
 
-            member = unitOfWork.MemberRepository.Update(member);
+            memberModel = unitOfWork.MemberRepository.Update(memberModel);
             if (unitOfWork.SaveChanges() > 0)
             {
-                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(member),
+                return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(memberModel),
                          "Member updated successfully");
             }
 
@@ -113,13 +112,13 @@ namespace GymManagement.BLL.Services
 
         public ViewResponse<MemberViewModel> DeleteById(int id)
         {
-            var member = unitOfWork.MemberRepository.GetById(id);
-            if (member != null)
+            var memberModel = unitOfWork.MemberRepository.GetById(id);
+            if (memberModel != null)
             {
-                member = unitOfWork.MemberRepository.Delete(member);
+                memberModel = unitOfWork.MemberRepository.Delete(memberModel);
                 if (unitOfWork.SaveChanges() > 0)
                 {
-                    return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(member),
+                    return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(memberModel),
                              "Member deleted successfully");
                 }
 
@@ -129,11 +128,11 @@ namespace GymManagement.BLL.Services
 
         public ViewResponse<UpdateMemberViewModel> GetMemberByIdForUpdate(int id)
         {
-            var member = unitOfWork.MemberRepository.GetById(id);
-            if (member != null)
+            var memberModel = unitOfWork.MemberRepository.GetById(id);
+            if (memberModel != null)
             {
                 return ViewResponse<UpdateMemberViewModel>.Success(
-                    mapper.Map<UpdateMemberViewModel>(member),
+                    mapper.Map<UpdateMemberViewModel>(memberModel),
                     "Member Found");
             }
             return ViewResponse<UpdateMemberViewModel>.Fail("Member Not Found");
@@ -141,14 +140,14 @@ namespace GymManagement.BLL.Services
 
         public ViewResponse<HealthRecordViewModel> GetHealthRecordByMemberId(int id)
         {
-            var healthRecord = unitOfWork.MemberRepository.GetHealthRecordByMemberId(id);
+            var healthRecordModel = unitOfWork.MemberRepository.GetHealthRecordByMemberId(id);
 
-            if (healthRecord != null)
+            if (healthRecordModel != null)
             {
-                if (healthRecord != null)
+                if (healthRecordModel != null)
                 {
                     return ViewResponse<HealthRecordViewModel>.Success(
-                        mapper.Map<HealthRecordViewModel>(healthRecord),
+                        mapper.Map<HealthRecordViewModel>(healthRecordModel),
                         "Health Record Found");
                 }
             }

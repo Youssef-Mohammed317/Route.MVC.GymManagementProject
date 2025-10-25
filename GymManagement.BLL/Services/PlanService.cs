@@ -31,31 +31,31 @@ namespace GymManagement.BLL.Services
             return ViewResponse<IEnumerable<PlanViewModel>>.Success(plans);
         }
 
-        public ViewResponse<PlanViewModel> GetById(int id)
+        public ViewResponse<PlanViewModel> GetPlanById(int id)
         {
-            var plan = unitOfWork.PlanRepository.GetById(id);
-            if (plan is not null)
+            var planModel = unitOfWork.PlanRepository.GetById(id);
+            if (planModel is not null)
             {
-                return ViewResponse<PlanViewModel>.Success(mapper.Map<PlanViewModel>(plan), "Plan found");
+                return ViewResponse<PlanViewModel>.Success(mapper.Map<PlanViewModel>(planModel), "Plan found");
             }
             return ViewResponse<PlanViewModel>.Fail("Plan not found");
         }
 
-        public ViewResponse<PlanViewModel> UpdatePlan(int id, UpdatePlanViewModel updatePlanViewModel)
+        public ViewResponse<PlanViewModel> UpdatePlan(int id, UpdatePlanViewModel updateModel)
         {
-            var plan = unitOfWork.PlanRepository.GetById(id);
+            var planModel = unitOfWork.PlanRepository.GetById(id);
 
-            if (plan is not null)
+            if (planModel is not null)
             {
-                var IsHasActiveMemberShips = HasActiveMemberShips(plan.PlanMembers);
+                var IsHasActiveMemberShips = HasActiveMemberships(planModel.PlanMembers);
                 if (!IsHasActiveMemberShips)
                 {
-                    plan = mapper.Map(updatePlanViewModel, plan);
-                    unitOfWork.PlanRepository.Update(plan);
+                    planModel = mapper.Map(updateModel, planModel);
+                    unitOfWork.PlanRepository.Update(planModel);
                     if (unitOfWork.SaveChanges() > 0)
                     {
 
-                        return ViewResponse<PlanViewModel>.Success(mapper.Map<PlanViewModel>(plan), "Plan updated successfully");
+                        return ViewResponse<PlanViewModel>.Success(mapper.Map<PlanViewModel>(planModel), "Plan updated successfully");
                     }
                     return ViewResponse<PlanViewModel>.Fail("Failed to update plan");
                 }
@@ -66,16 +66,16 @@ namespace GymManagement.BLL.Services
 
         public ViewResponse<PlanViewModel> TogglePlan(int id)
         {
-            var plan = unitOfWork.PlanRepository.GetById(id);
-            if (plan is not null)
+            var planModel = unitOfWork.PlanRepository.GetById(id);
+            if (planModel is not null)
             {
-                plan.IsActive = !plan.IsActive;
+                planModel.IsActive = !planModel.IsActive;
 
-                plan = unitOfWork.PlanRepository.Update(plan);
+                planModel = unitOfWork.PlanRepository.Update(planModel);
 
                 if (unitOfWork.SaveChanges() > 0)
                 {
-                    return ViewResponse<PlanViewModel>.Success(mapper.Map<PlanViewModel>(plan), "Plan status toggled successfully");
+                    return ViewResponse<PlanViewModel>.Success(mapper.Map<PlanViewModel>(planModel), "Plan status toggled successfully");
                 }
                 return ViewResponse<PlanViewModel>.Fail("Failed to toggle plan status");
             }
@@ -83,20 +83,20 @@ namespace GymManagement.BLL.Services
         }
         public ViewResponse<UpdatePlanViewModel> GetPlanByIdForUpdate(int id)
         {
-            var plan = unitOfWork.PlanRepository.GetById(id);
-            if (plan is not null)
+            var planModel = unitOfWork.PlanRepository.GetById(id);
+            if (planModel is not null)
             {
-                var updatePlanViewModel = mapper.Map<UpdatePlanViewModel>(plan);
+                var updatePlanViewModel = mapper.Map<UpdatePlanViewModel>(planModel);
                 return ViewResponse<UpdatePlanViewModel>.Success(updatePlanViewModel, "Plan found");
             }
             return ViewResponse<UpdatePlanViewModel>.Fail("Plan not found");
         }
-        private bool HasActiveMemberShips(ICollection<MemberShip> memberShips)
+        private bool HasActiveMemberships(IEnumerable<Membership> memberships)
         {
 
             bool hasActiveMemberShips = false;
 
-            foreach (var memberShip in memberShips)
+            foreach (var memberShip in memberships)
             {
                 if (memberShip.Status == "Active")
                 {

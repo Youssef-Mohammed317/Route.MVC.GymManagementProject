@@ -32,7 +32,7 @@ namespace GymManagement.PL.Common
                     int.TryParse(idValue.ToString(), out currentId);
             }
 
-            var memberResponse = memberService.GetByPhone(phone!);
+            var memberResponse = memberService.GetMemberByPhone(phone!);
             if (memberResponse.IsSuccess)
             {
                 bool isSameEntity = currentEntityType.Contains("member");
@@ -42,7 +42,7 @@ namespace GymManagement.PL.Common
                 }
             }
 
-            var trainerResponse = trainerService.GetByPhone(phone!);
+            var trainerResponse = trainerService.GetTrainerByPhone(phone!);
             if (trainerResponse.IsSuccess)
             {
                 bool isSameEntity = currentEntityType.Contains("trainer");

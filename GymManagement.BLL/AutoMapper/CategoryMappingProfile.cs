@@ -13,7 +13,7 @@ namespace GymManagement.BLL.AutoMapper
     {
         public CategoryMappingProfile()
         {
-            CreateMap<Category, CategoryViewModel>()
+            CreateMap<Category, CategorySelectModel>()
                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CategoryName))
                .ReverseMap();

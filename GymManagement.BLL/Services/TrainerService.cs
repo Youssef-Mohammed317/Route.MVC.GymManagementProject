@@ -25,15 +25,15 @@ namespace GymManagement.BLL.Services
             mapper = _mapper;
         }
 
-        public ViewResponse<TrainerViewModel> CreateTrainer(CreateTrainerViewModel createTrainerViewModel)
+        public ViewResponse<TrainerViewModel> CreateTrainer(CreateTrainerViewModel createModel)
         {
-            var trainer = mapper.Map<Trainer>(createTrainerViewModel);
+            var trainerModel = mapper.Map<Trainer>(createModel);
 
-            unitOfWork.TrainerRepository.Create(trainer);
+            unitOfWork.TrainerRepository.Create(trainerModel);
 
             if (unitOfWork.SaveChanges() > 0)
             {
-                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainerModel),
                     "Trainer created successfully");
             }
 
@@ -42,17 +42,17 @@ namespace GymManagement.BLL.Services
 
         public ViewResponse<TrainerViewModel> DeleteById(int id)
         {
-            var trainer = unitOfWork.TrainerRepository.GetById(id);
+            var trainerModel = unitOfWork.TrainerRepository.GetById(id);
 
-            if (trainer is not null)
+            if (trainerModel is not null)
             {
-                if (!HasFutureSession(trainer))
+                if (!HasFutureSession(trainerModel))
                 {
-                    unitOfWork.TrainerRepository.Delete(trainer);
+                    unitOfWork.TrainerRepository.Delete(trainerModel);
 
                     if (unitOfWork.SaveChanges() > 0)
                     {
-                        return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                        return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainerModel),
                             "Trainer deleted successfully");
                     }
                 }
@@ -80,58 +80,58 @@ namespace GymManagement.BLL.Services
             return ViewResponse<IEnumerable<TrainerViewModel>>.Success(trainers);
         }
 
-        public ViewResponse<TrainerViewModel> GetByEmail(string email)
+        public ViewResponse<TrainerViewModel> GetTrainerByEmail(string email)
         {
-            var trainer = unitOfWork.TrainerRepository.GetByEmail(email);
+            var trainerModel = unitOfWork.TrainerRepository.GetByEmail(email);
 
-            if (trainer != null)
+            if (trainerModel != null)
             {
-                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainerModel),
                     "Trainer Found");
 
             }
             return ViewResponse<TrainerViewModel>.Fail("Trainer Not Found");
         }
 
-        public ViewResponse<TrainerViewModel> GetById(int id)
+        public ViewResponse<TrainerViewModel> GetTrainerById(int id)
         {
-            var trainer = unitOfWork.TrainerRepository.GetById(id);
-            if (trainer is not null)
+            var trainerModel = unitOfWork.TrainerRepository.GetById(id);
+            if (trainerModel is not null)
             {
-                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainerModel),
                    "Trainer Found");
 
             }
             return ViewResponse<TrainerViewModel>.Fail("Trainer Not Found");
         }
 
-        public ViewResponse<TrainerViewModel> GetByPhone(string phone)
+        public ViewResponse<TrainerViewModel> GetTrainerByPhone(string phone)
         {
-            var trainer = unitOfWork.TrainerRepository.GetByPhone(phone);
-            if (trainer is not null)
+            var trainerModel = unitOfWork.TrainerRepository.GetByPhone(phone);
+            if (trainerModel is not null)
             {
-                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainerModel),
                         "Trainer Found");
 
             }
             return ViewResponse<TrainerViewModel>.Fail("Trainer Not Found");
         }
-        public ViewResponse<TrainerViewModel> UpdateTrainer(int id, UpdateTrainerViewModel updateTrainerViewModel)
+        public ViewResponse<TrainerViewModel> UpdateTrainer(int id, UpdateTrainerViewModel updateModel)
         {
-            var trainer = unitOfWork.TrainerRepository.GetById(id);
+            var trainerModel = unitOfWork.TrainerRepository.GetById(id);
 
-            if (trainer == null)
+            if (trainerModel == null)
             {
                 return ViewResponse<TrainerViewModel>.Fail("Trainer not found");
             }
 
-            trainer = mapper.Map(updateTrainerViewModel, trainer);
+            trainerModel = mapper.Map(updateModel, trainerModel);
 
-            unitOfWork.TrainerRepository.Update(trainer);
+            unitOfWork.TrainerRepository.Update(trainerModel);
 
             if (unitOfWork.SaveChanges() > 0)
             {
-                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainer),
+                return ViewResponse<TrainerViewModel>.Success(mapper.Map<TrainerViewModel>(trainerModel),
                     "Trainer updated successfully");
             }
 
@@ -140,12 +140,12 @@ namespace GymManagement.BLL.Services
 
         public ViewResponse<UpdateTrainerViewModel> GetTrainerByIdForUpdate(int id)
         {
-            var trainer = unitOfWork.TrainerRepository.GetById(id);
+            var trainerModel = unitOfWork.TrainerRepository.GetById(id);
 
-            if (trainer != null)
+            if (trainerModel != null)
             {
                 return ViewResponse<UpdateTrainerViewModel>.Success(
-                    mapper.Map<UpdateTrainerViewModel>(trainer),
+                    mapper.Map<UpdateTrainerViewModel>(trainerModel),
                     "Trainer Found");
             }
             return ViewResponse<UpdateTrainerViewModel>.Fail("Trainer Not Found");

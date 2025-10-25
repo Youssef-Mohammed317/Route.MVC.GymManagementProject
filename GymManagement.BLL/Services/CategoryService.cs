@@ -21,12 +21,12 @@ namespace GymManagement.BLL.Services
             unitOfWork = _unitOfWork;
             mapper = _mapper;
         }
-        public ViewResponse<IEnumerable<CategoryViewModel>> GetAllCategories()
+        public ViewResponse<IEnumerable<CategorySelectModel>> GetAllCategories()
         {
             var categories = unitOfWork.CategoryRepository.GetAll();
 
-            return ViewResponse<IEnumerable<CategoryViewModel>>.Success(
-                mapper.Map<IEnumerable<CategoryViewModel>>(categories)
+            return ViewResponse<IEnumerable<CategorySelectModel>>.Success(
+                mapper.Map<IEnumerable<CategorySelectModel>>(categories)
             );
         }
     }

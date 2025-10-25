@@ -13,10 +13,9 @@ namespace GymManagement.DAL.Repositories.Implementations
         private readonly GymDbContext context;
 
         private readonly ICategoryRepository? categoryRepository;
-        private readonly IHealthRecordRepository? healthRecordRepository;
         private readonly IMemberRepository? memberRepository;
         private readonly IMemberSessionRepository? memberSessionRepository;
-        private readonly IMemberShipRepository? memberShipRepository;
+        private readonly IMembershipRepository? membershipRepository;
         private readonly IPlanRepository? planRepository;
         private readonly ISessionRepository? sessionRepository;
         private readonly ITrainerRepository? trainerRepository;
@@ -59,15 +58,15 @@ namespace GymManagement.DAL.Repositories.Implementations
                 return memberSessionRepository;
             }
         }
-        public IMemberShipRepository MemberShipRepository
+        public IMembershipRepository MembershipRepository
         {
             get
             {
-                if (memberShipRepository == null)
+                if (membershipRepository == null)
                 {
-                    return new MemberShipRepository(context);
+                    return new MembershipRepository(context);
                 }
-                return memberShipRepository;
+                return membershipRepository;
             }
         }
         public IPlanRepository PlanRepository

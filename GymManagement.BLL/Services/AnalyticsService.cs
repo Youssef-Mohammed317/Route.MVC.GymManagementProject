@@ -1,5 +1,6 @@
 ﻿using GymManagement.BLL.Interfaces;
 using GymManagement.BLL.ViewModels.Analytics;
+using GymManagement.BLL.ViewModels.Common;
 using GymManagement.DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,12 @@ namespace GymManagement.BLL.Services
             unitOfWork = _unitOfWork;
         }
 
-        public AnalyticsViewModel GetAnalytics()
+        public ViewResponse<AnalyticsViewModel> GetAnalytics()
         {
             var analytics = new AnalyticsViewModel
             {
                 TotalMembers = unitOfWork.MemberRepository.GetAll().Count(),
-                ActiveMembers = unitOfWork.MemberShipRepository.GetAll().ToList()
+                ActiveMembers = unitOfWork.MembershipRepository.GetAll().ToList()
                 .Count(m => m.Status == "Active"),
                 TotalTrainers = unitOfWork.TrainerRepository.GetAll().Count(),
                 UpcomingSessions = unitOfWork.SessionRepository.GetAll()
@@ -34,7 +35,8 @@ namespace GymManagement.BLL.Services
                     .Count(s => s.EndDate < DateTime.Now)
 
             };
-            return analytics;
+
+            return ViewResponse<AnalyticsViewModel>.Success(analytics);
         }
     }
 }

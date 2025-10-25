@@ -1,0 +1,46 @@
+﻿@using GymManagement.BLL.ViewModels.Membership
+@model CreateMembershipViewModel
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>@ViewData["Title"]</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="Membership" asp-action="Create">
+
+                        <div class="mb-3">
+                            <label class="form-label">Member</label>
+                            <select class="form-select" asp-for="MemberId">
+                                <option value="">-- Select Member --</option>
+
+                                @foreach(var member in Model.Members)
+                                {
+                                    <option value="@member.Id">@member.Name</option>
+								}
+                            
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Plan</label>
+                            <select class="form-select" asp-for="PlanId">
+                                <option value="">-- Select Plan --</option>
+                                @foreach(var plan in Model.Plans)
+                                {
+									<option value="@plan.Id">@plan.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Create Membership</button>
+                            <a asp-action="Index" asp-controller="Membership" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

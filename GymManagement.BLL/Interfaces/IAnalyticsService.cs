@@ -1,4 +1,5 @@
 ﻿using GymManagement.BLL.ViewModels.Analytics;
+using GymManagement.BLL.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace GymManagement.BLL.Interfaces
 {
     public interface IAnalyticsService
     {
-        AnalyticsViewModel GetAnalytics();
+        ViewResponse<AnalyticsViewModel> GetAnalytics();
     }
 }

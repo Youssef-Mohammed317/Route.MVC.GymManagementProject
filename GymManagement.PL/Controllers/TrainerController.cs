@@ -32,7 +32,7 @@ namespace GymManagement.PL.Controllers
         // GET: Trainer/Details/5
         public IActionResult Details([FromRoute] int id)
         {
-            var response = trainerService.GetById(id);
+            var response = trainerService.GetTrainerById(id);
             if (response.IsSuccess)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? response.Message ?? "";
@@ -114,7 +114,7 @@ namespace GymManagement.PL.Controllers
         // GET: Trainer/Delete/5
         public IActionResult Delete([FromRoute] int id)
         {
-            var response = trainerService.GetById(id);
+            var response = trainerService.GetTrainerById(id);
             if (response.IsSuccess)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? response.Message ?? "";

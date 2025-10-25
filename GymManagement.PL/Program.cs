@@ -33,6 +33,7 @@ namespace GymManagement.PL
             builder.Services.AddScoped<ISessionService, SessionService>();
             builder.Services.AddScoped<IPlanService, PlanService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IMembershipService, MembershipService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

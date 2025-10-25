@@ -13,9 +13,10 @@ namespace GymManagement.BLL.Interfaces
         ViewResponse<IEnumerable<SessionViewModel>> GetAllSessions();
         ViewResponse<SessionViewModel> GetSessionById(int id);
         ViewResponse<UpdateSessionViewModel> GetSessionByIdForUpdate(int id);
+        ViewResponse<CreateSessionViewModel> GetDataForCreateSession();
         ViewResponse<SessionViewModel> DeleteSessionById(int id);
-        ViewResponse<SessionViewModel> CreateSession(CreateSessionViewModel session);
-        ViewResponse<SessionViewModel> UpdateSession(int id, UpdateSessionViewModel session);
+        ViewResponse<SessionViewModel> CreateSession(CreateSessionViewModel createModel);
+        ViewResponse<SessionViewModel> UpdateSession(int id, UpdateSessionViewModel updateModel);
 
     }
 }

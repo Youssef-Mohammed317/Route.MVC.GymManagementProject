@@ -55,6 +55,11 @@ namespace GymManagement.BLL.AutoMapper
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
                 .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Street))
                 .ReverseMap();
+
+            CreateMap<Trainer,TrainerSelectModel>()
+                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ReverseMap();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace GymManagement.DAL.Entites
         #endregion
         #region Member -MemberShip
 
-        public virtual ICollection<MemberShip> MemberShips { get; set; } = null!;
+        public virtual ICollection<Membership> MemberShips { get; set; } = null!;
         #endregion
         #region Member MemberSession
         public virtual ICollection<MemberSession> MemberSessions { get; set; } = null!;

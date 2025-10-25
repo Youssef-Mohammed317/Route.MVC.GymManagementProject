@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace GymManagement.DAL.Repositories.Implementations
 {
-    public class MemberShipRepository : GenericRepository<MemberShip>, IMemberShipRepository
+    public class MembershipRepository : GenericRepository<Membership>, IMembershipRepository
     {
-        public MemberShipRepository(GymDbContext _dbContext) : base(_dbContext)
+        public MembershipRepository(GymDbContext _dbContext) : base(_dbContext)
         {
         }
     }

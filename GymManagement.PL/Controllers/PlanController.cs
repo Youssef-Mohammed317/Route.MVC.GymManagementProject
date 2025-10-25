@@ -17,7 +17,7 @@ namespace GymManagement.PL.Controllers
         }
         [HttpGet]
         // GET: Plan/Index
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var response = planService.GetAllPlans();
 
@@ -29,9 +29,9 @@ namespace GymManagement.PL.Controllers
 
         [HttpGet]
         // GET: PlanController/Details/5
-        public ActionResult Details([FromRoute] int id)
+        public IActionResult Details([FromRoute] int id)
         {
-            var response = planService.GetById(id);
+            var response = planService.GetPlanById(id);
             if (response.IsSuccess)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? response.Message ?? "";
@@ -46,7 +46,7 @@ namespace GymManagement.PL.Controllers
 
         [HttpGet]
         // GET: PlanController/Edit/5
-        public ActionResult Edit([FromRoute] int id)
+        public IActionResult Edit([FromRoute] int id)
         {
             var response = planService.GetPlanByIdForUpdate(id);
             if (response.IsSuccess)
@@ -64,7 +64,7 @@ namespace GymManagement.PL.Controllers
         // POST: PlanController/Edit/5
         [HttpPost]
         [ValidateModel]
-        public ActionResult Edit([FromRoute] int id, [FromForm] UpdatePlanViewModel model)
+        public IActionResult Edit([FromRoute] int id, [FromForm] UpdatePlanViewModel model)
         {
             var response = planService.UpdatePlan(id, model);
 
@@ -82,7 +82,7 @@ namespace GymManagement.PL.Controllers
 
         [HttpPost]
         // POST: PlanController/ToggleStatus/5
-        public ActionResult ToggleStatus([FromRoute] int id)
+        public IActionResult ToggleStatus([FromRoute] int id)
         {
             var response = planService.TogglePlan(id);
             if (response.IsSuccess)

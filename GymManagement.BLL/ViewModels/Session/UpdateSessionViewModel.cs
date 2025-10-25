@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GymManagement.BLL.ViewModels.Trainer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,5 +27,7 @@ namespace GymManagement.BLL.ViewModels.SessionViewModel
         [Required(ErrorMessage = "Trainer is required")]
         [Display(Name = "Trainer")]
         public int TrainerId { get; set; }
+
+        public IEnumerable<TrainerSelectModel>? Trainers { get; set; } = Enumerable.Empty<TrainerSelectModel>();
     }
 }

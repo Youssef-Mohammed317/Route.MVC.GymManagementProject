@@ -30,7 +30,7 @@ namespace GymManagement.DAL.Data.Context
         public DbSet<HealthRecord> HealthRecords { get; set; }
         public DbSet<Plan> Plans { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<MemberShip> MemberShips { get; set; }
+        public DbSet<Membership> MemberShips { get; set; }
 
     }
 }

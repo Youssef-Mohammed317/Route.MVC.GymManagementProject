@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GymManagement.BLL.ViewModels.Category
 {
-    public class CategoryViewModel
+    public class CategorySelectModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

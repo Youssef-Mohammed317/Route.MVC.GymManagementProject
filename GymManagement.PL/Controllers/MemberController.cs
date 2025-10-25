@@ -14,6 +14,7 @@ namespace GymManagement.PL.Controllers
         {
             memberService = _memberService;
         }
+        [HttpGet]
         // GET: Member/Index
         public IActionResult Index()
         {
@@ -25,10 +26,11 @@ namespace GymManagement.PL.Controllers
             return View(response.Data);
         }
 
+        [HttpGet]
         // GET: Member/Details/5
         public IActionResult MemberDetails([FromRoute] int id)
         {
-            var response = memberService.GetById(id);
+            var response = memberService.GetMemberById(id);
             if (response.IsSuccess)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? response.Message ?? "";
@@ -40,8 +42,9 @@ namespace GymManagement.PL.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
-        // GET: Member/Details/5
 
+        [HttpGet]
+        // GET: Member/Details/5
         public IActionResult HealthRecordDetails([FromRoute] int id)
         {
             var response = memberService.GetHealthRecordByMemberId(id);
@@ -57,6 +60,7 @@ namespace GymManagement.PL.Controllers
             }
         }
 
+        [HttpGet]
         // GET: Member/Create
         public IActionResult Create()
         {
@@ -65,12 +69,12 @@ namespace GymManagement.PL.Controllers
             return View();
         }
 
-        // POST: Member/Create
         [HttpPost]
         [ValidateModel]
-        public IActionResult Create([FromForm] CreateMemberViewModel model)
+        // POST: Member/Create
+        public IActionResult Create([FromForm] CreateMemberViewModel createModel)
         {
-            var response = memberService.CreateMember(model);
+            var response = memberService.CreateMember(createModel);
 
             if (response.IsSuccess)
             {
@@ -80,10 +84,11 @@ namespace GymManagement.PL.Controllers
             else
             {
                 TempData["ErrorMessage"] = response.Message;
-                return View(model);
+                return View(createModel);
             }
         }
 
+        [HttpGet]
         // GET: Member/Edit/5
         public IActionResult Edit([FromRoute] int id)
         {
@@ -100,13 +105,13 @@ namespace GymManagement.PL.Controllers
             }
         }
 
-        // POST: Member/Edit/5
         [HttpPost]
         [ValidateModel]
-        public IActionResult Edit([FromRoute] int id, [FromForm] UpdateMemberViewModel model)
+        // POST: Member/Edit/5
+        public IActionResult Edit([FromRoute] int id, [FromForm] UpdateMemberViewModel updateModel)
         {
 
-            var response = memberService.UpdateMember(id, model);
+            var response = memberService.UpdateMember(id, updateModel);
 
             if (response.IsSuccess)
             {
@@ -116,14 +121,15 @@ namespace GymManagement.PL.Controllers
             else
             {
                 TempData["ErrorMessage"] = response.Message;
-                return View(model);
+                return View(updateModel);
             }
         }
 
+        [HttpGet]
         // GET: MemberController/Delete/5
         public IActionResult Delete([FromRoute] int id)
         {
-            var response = memberService.GetById(id);
+            var response = memberService.GetMemberById(id);
             if (response.IsSuccess)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? response.Message ?? "";

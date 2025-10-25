@@ -26,7 +26,7 @@
                                 </label>
                                 <select asp-for="CategoryId" class="form-select">
                                     <option value="">Select Category</option>
-                                    @foreach(var category in ViewBag.Categories)
+                                    @foreach(var category in Model.Categories ?? [])
                                     {
                                         <option value="@category.Id">@category.Name</option>
                                     }
@@ -40,7 +40,7 @@
                                 </label>
                                 <select asp-for="TrainerId" class="form-select">
                                     <option value="">Select Trainer</option>
-                                    @foreach (var trainer in ViewBag.Trainers)
+                                    @foreach (var trainer in Model.Trainers ?? [])
                                     {
                                         <option value="@trainer.Id">@trainer.Name</option>
                                     }
