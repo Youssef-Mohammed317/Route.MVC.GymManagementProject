@@ -23,7 +23,7 @@ namespace GymManagement.BLL.AutoMapper
                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
                .ForMember(dest => dest.Capacity, opt => opt.MapFrom(src => src.Capacity))
-               .ForMember(dest => dest.AvailableSlots, opt => opt.MapFrom<AvailableSlotsResolver>())
+               .ForMember(dest => dest.AvailableSlots, opt => opt.Ignore())
                .ReverseMap();
 
 
@@ -38,8 +38,7 @@ namespace GymManagement.BLL.AutoMapper
                  .ReverseMap();
 
             CreateMap<UpdateSessionViewModel, Session>()
-                 .ForMember(dest => dest.Capacity, opt => opt.MapFrom(src => src.Capacity))
-                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
+                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                  .ForMember(dest => dest.TrainerId, opt => opt.MapFrom(src => src.TrainerId))
                  .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
                  .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))

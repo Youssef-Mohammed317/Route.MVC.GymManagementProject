@@ -9,15 +9,7 @@ namespace GymManagement.BLL.ViewModels.SessionViewModel
 {
     public class UpdateSessionViewModel
     {
-
-        [Required(ErrorMessage = "Category is required")]
-        [Display(Name = "Category")]
-        public int CategoryId { get; set; }
-
-        [Required(ErrorMessage = "Capacity is required")]
-        [Range(0, 25, ErrorMessage = "Capacity must be between 0 and 25")]
-        [Display(Name = "Capacity")]
-        public int Capacity { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Description is required")]
         [StringLength(500, MinimumLength = 10, ErrorMessage = "Description must be between 10 and 500 characters")]

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using GymManagement.BLL.Interfaces;
+using GymManagement.BLL.ViewModels.Common;
 using GymManagement.BLL.ViewModels.SessionViewModel;
 using GymManagement.DAL.Entites;
+using GymManagement.DAL.Repositories.Implementations;
 using GymManagement.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,36 +26,58 @@ namespace GymManagement.BLL.Services
             mapper = _mapper;
         }
 
-        public SessionViewModel CreateSession(CreateSessionViewModel session)
+        public ViewResponse<SessionViewModel> CreateSession(CreateSessionViewModel model)
         {
-            var cat = unitOfWork.CategoryRepository.GetById(session.CategoryId);
-            var trainer = unitOfWork.TrainerRepository.GetById(session.TrainerId);
+            var cat = unitOfWork.CategoryRepository.GetById(model.CategoryId);
+            var trainer = unitOfWork.TrainerRepository.GetById(model.TrainerId);
 
-            if (trainer != null && cat is not null)
+            if (trainer is not null && cat is not null)
             {
 
-                var sessionModel = mapper.Map<Session>(session);
+                var session = mapper.Map<Session>(model);
+                unitOfWork.SessionRepository.Create(session);
+                if (unitOfWork.SaveChanges() > 0)
+                {
+                    var sessionViewModel = mapper.Map<SessionViewModel>(session);
 
-                unitOfWork.SessionRepository.Create(sessionModel);
-                unitOfWork.SaveChanges();
+                    sessionViewModel.AvailableSlots = GetAvailableSlots(session);
 
-                return mapper.Map<SessionViewModel>(sessionModel);
+                    return ViewResponse<SessionViewModel>.Success(
+                        sessionViewModel,
+                        "Session created successfully.");
+                }
+                return ViewResponse<SessionViewModel>
+                    .Fail("Failed to create session due to a database error.");
             }
-            throw new Exception("Not Found Exception");
+            return ViewResponse<SessionViewModel>
+                .Fail("Failed to create session. Invalid trainer or category.");
         }
 
-        public void DeleteSession(int id)
+        public ViewResponse<SessionViewModel> DeleteSessionById(int id)
         {
             var session = unitOfWork.SessionRepository.GetById(id);
             if (session != null)
             {
                 unitOfWork.SessionRepository.Delete(session);
-                unitOfWork.SaveChanges();
+                if (unitOfWork.SaveChanges() > 0)
+                {
+                    var sessionViewModel = mapper.Map<SessionViewModel>(session);
+
+                    sessionViewModel.AvailableSlots = GetAvailableSlots(session);
+
+                    return ViewResponse<SessionViewModel>.Success(
+                        sessionViewModel,
+                        "Session deleted successfully.");
+                }
+                return ViewResponse<SessionViewModel>
+                    .Fail("Failed to delete session due to a database error.");
             }
 
+            return ViewResponse<SessionViewModel>
+                .Fail("Session not found.");
         }
 
-        public IEnumerable<SessionViewModel> GetAllSessions()
+        public ViewResponse<IEnumerable<SessionViewModel>> GetAllSessions()
         {
             var sessions = unitOfWork.SessionRepository
                 .GetAll()
@@ -62,35 +86,84 @@ namespace GymManagement.BLL.Services
                 .ProjectTo<SessionViewModel>(mapper.ConfigurationProvider)
                 .ToList();
 
-            return sessions;
+            return ViewResponse<IEnumerable<SessionViewModel>>.Success(
+                sessions,
+                "Sessions retrieved successfully.");
         }
-        public SessionViewModel GetSessionById(int id)
+        public ViewResponse<SessionViewModel> GetSessionById(int id)
         {
 
             var session = unitOfWork.SessionRepository
                 .GetByIdWithTrainerAndCategory(id);
 
-            return mapper.Map<SessionViewModel>(session);
-        }
-
-        public SessionViewModel UpdateSession(int id, UpdateSessionViewModel session)
-        {
-            var sessionModel = unitOfWork.SessionRepository.GetById(id);
-            var cat = unitOfWork.CategoryRepository.GetById(session.CategoryId);
-            var trainer = unitOfWork.TrainerRepository.GetById(session.TrainerId);
-
-            if (sessionModel == null || trainer == null || cat == null)
+            if (session != null)
             {
-                throw new Exception("Not Found");
+                var sessionViewModel = mapper.Map<SessionViewModel>(session);
+
+                sessionViewModel.AvailableSlots = GetAvailableSlots(session);
+
+                return ViewResponse<SessionViewModel>.Success(
+                    sessionViewModel,
+                    "Session found successfully.");
             }
 
-            sessionModel = mapper.Map(session, sessionModel);
+            return ViewResponse<SessionViewModel>
+                .Fail("Session not found.");
+        }
+
+        public ViewResponse<UpdateSessionViewModel> GetSessionByIdForUpdate(int id)
+        {
+            var session = unitOfWork.SessionRepository.GetById(id);
+            if (session != null)
+            {
+
+                return ViewResponse<UpdateSessionViewModel>.Success(
+                    mapper.Map<UpdateSessionViewModel>(session),
+                    "Session created successfully.");
+            }
+            return ViewResponse<UpdateSessionViewModel>
+                .Fail("Session not found.");
+        }
+
+        public ViewResponse<SessionViewModel> UpdateSession(int id, UpdateSessionViewModel model)
+        {
+            var sessionModel = unitOfWork.SessionRepository.GetById(id);
+            var trainer = unitOfWork.TrainerRepository.GetById(model.TrainerId);
+
+            if (sessionModel == null || trainer == null)
+            {
+                return ViewResponse<SessionViewModel>
+                    .Fail("Failed to update session. Invalid session, or trainer.");
+            }
+
+            sessionModel = mapper.Map(model, sessionModel);
 
             unitOfWork.SessionRepository.Update(sessionModel);
-            unitOfWork.SaveChanges();
 
-            return mapper.Map<SessionViewModel>(sessionModel);
+            if (unitOfWork.SaveChanges() > 0)
+            {
+                var sessionViewModel = mapper.Map<SessionViewModel>(sessionModel);
+
+                sessionViewModel.AvailableSlots = GetAvailableSlots(sessionModel);
+
+                return ViewResponse<SessionViewModel>.Success(
+                    sessionViewModel,
+                    "Session created successfully.");
+            }
+
+            return ViewResponse<SessionViewModel>
+                .Fail("Failed to update session due to a database error.");
         }
+
+        private int GetAvailableSlots(Session session)
+        {
+            var bookedSlots = unitOfWork.MemberSessionRepository
+                .GetAll()
+                .Count(ms => ms.SessionId == session.Id);
+            return session.Capacity - bookedSlots;
+        }
+
+
     }
 
 }
