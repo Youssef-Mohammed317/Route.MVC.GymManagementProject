@@ -1,4 +1,5 @@
-﻿using GymManagement.BLL.ViewModels.Trainer;
+﻿using GymManagement.BLL.ViewModels.Common;
+using GymManagement.BLL.ViewModels.Trainer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,6 +23,7 @@ namespace GymManagement.BLL.ViewModels.SessionViewModel
 
         [Required(ErrorMessage = "End date is required")]
         [Display(Name = "End Date & Time")]
+        [EndDateAfterStartDate]
         public DateTime EndDate { get; set; }
 
         [Required(ErrorMessage = "Trainer is required")]

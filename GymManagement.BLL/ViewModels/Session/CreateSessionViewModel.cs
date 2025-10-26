@@ -1,4 +1,5 @@
 ﻿using GymManagement.BLL.ViewModels.Category;
+using GymManagement.BLL.ViewModels.Common;
 using GymManagement.BLL.ViewModels.Trainer;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace GymManagement.BLL.ViewModels.SessionViewModel
 
         [Required(ErrorMessage = "End date is required")]
         [Display(Name = "End Date & Time")]
+        [EndDateAfterStartDate]
         public DateTime EndDate { get; set; }
 
         public IEnumerable<CategorySelectModel>? Categories { get; set; } = new List<CategorySelectModel>();

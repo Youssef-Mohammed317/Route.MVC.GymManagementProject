@@ -29,9 +29,9 @@ namespace GymManagement.BLL.ViewModels.SessionViewModel
         {
             get
             {
-                if (StartDate > DateTime.Now && EndDate > DateTime.Now)
+                if (DateTime.Now > EndDate)
                 {
-                    return "OnGoing";
+                    return "Completed";
                 }
                 else
                 {
@@ -41,7 +41,7 @@ namespace GymManagement.BLL.ViewModels.SessionViewModel
                     }
                     else
                     {
-                        return "Completed";
+                        return "OnGoing";
                     }
 
                 }
