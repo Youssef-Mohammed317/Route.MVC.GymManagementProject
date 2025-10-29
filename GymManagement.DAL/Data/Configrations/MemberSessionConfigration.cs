@@ -17,8 +17,9 @@ namespace GymManagement.DAL.Data.Configrations
                 .HasColumnName("BookingDate")
                 .HasDefaultValueSql("GETDATE()");
 
-            builder.HasKey(x => new { x.Created_at, x.MemberId, x.SessionId });
-            builder.Ignore(x => x.Id);
+            builder.HasKey(x => x.Id);
+
+            builder.HasIndex(x => new { x.Created_at, x.MemberId, x.SessionId }).IsUnique();
         }
     }
 }

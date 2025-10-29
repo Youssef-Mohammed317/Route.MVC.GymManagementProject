@@ -1,4 +1,10 @@
-﻿<div class="container mt-5">
+﻿@using GymManagement.BLL.ViewModels.Member
+@model MemberDetailsViewModel
+@{
+    ViewData["Title"] = "Power fitness | Member Details";
+}
+
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card card-details border-0 p-2 shadow">
@@ -7,51 +13,51 @@
                          style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #fff; margin-top: -60px;" />
                 </div>
                 <div class="card-body text-center">
-                    <h2 class="mb-1 text-primary-color">Salma</h2>
-                    <h4 class="mb-2 pb-1 border-bottom d-block">Standard Plan</h4>
+                    <h2 class="mb-1 text-primary-color">@Model.Name</h2>
+                    <h4 class="mb-2 pb-1 border-bottom d-block">@Model.PlanName</h4>
                     <div class="mt-4 text-start">
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="p-3 bg-light rounded">
                                     <small class="text-muted d-block mb-1">Email</small>
-                                    <strong>Salma@gmail.com</strong>
+                                    <strong>@Model.Email</strong>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="p-3 bg-light rounded">
                                     <small class="text-muted d-block mb-1">Phone</small>
-                                    <strong>01023652145</strong>
+                                    <strong>@Model.Phone</strong>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="p-3 bg-light rounded">
                                     <small class="text-muted d-block mb-1">Gender</small>
-                                    <strong>Female</strong>
+                                    <strong>@Model.Gender</strong>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="p-3 bg-light rounded">
                                     <small class="text-muted d-block mb-1">Date of Birth</small>
-                                    <strong>07/25/2000</strong>
+                                    <strong>@Model.DateOfBirth</strong>
                                 </div>
                             </div>
 
                             <div class="col-6">
                                 <div class="p-3 bg-light rounded">
                                     <small class="text-muted d-block mb-1">Membership Start Date</small>
-                                    <strong>10/15/2025</strong>
+                                    <strong>@Model.MembershipStartDate</strong>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="p-3 bg-light rounded">
                                     <small class="text-muted d-block mb-1">Membership End Date</small>
-                                    <strong>12/15/2025</strong>
+                                    <strong>@Model.MembershipEndDate</strong>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="p-3 bg-light rounded">
                                     <small class="text-muted d-block mb-1">Address</small>
-                                    <strong>2 - El Tahrir - Giza</strong>
+                                    <strong>@Model.Address</strong>
                                 </div>
                             </div>
                         </div>

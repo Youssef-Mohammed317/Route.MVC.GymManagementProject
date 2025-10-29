@@ -30,7 +30,7 @@ namespace GymManagement.PL.Controllers
         // GET: Member/Details/5
         public IActionResult MemberDetails([FromRoute] int id)
         {
-            var response = memberService.GetMemberById(id);
+            var response = memberService.GetMemberDetailsById(id);
             if (response.IsSuccess)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? response.Message ?? "";

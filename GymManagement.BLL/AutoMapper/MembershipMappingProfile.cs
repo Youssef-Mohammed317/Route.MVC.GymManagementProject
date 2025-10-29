@@ -13,7 +13,14 @@ namespace GymManagement.BLL.AutoMapper
     {
         public MembershipMappingProfile()
         {
-            CreateMap<Membership, MembershipViewModel>();
+            CreateMap<Membership, MembershipViewModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.PlanId))
+                .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.PlanId))
+                .ForMember(dest => dest.MemberId, opt => opt.MapFrom(src => src.MemberId))
+                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Created_at))
+                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
+                .ReverseMap();
             CreateMap<CreateMembershipViewModel, Membership>()
                 .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.PlanId))
                 .ForMember(dest => dest.MemberId, opt => opt.MapFrom(src => src.MemberId))

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymManagement.BLL.ViewModels.SessionViewModel
+namespace GymManagement.BLL.ViewModels.Session
 {
     public class SessionViewModel
     {
@@ -35,7 +35,7 @@ namespace GymManagement.BLL.ViewModels.SessionViewModel
                 }
                 else
                 {
-                    if (StartDate < DateTime.Now)
+                    if (StartDate > DateTime.Now)
                     {
                         return "UpComing";
                     }

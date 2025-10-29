@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 using GymManagement.BLL.Interfaces;
 using GymManagement.BLL.ViewModels.Category;
 using GymManagement.BLL.ViewModels.Common;
-using GymManagement.BLL.ViewModels.SessionViewModel;
+using GymManagement.BLL.ViewModels.Session;
 using GymManagement.BLL.ViewModels.Trainer;
 using GymManagement.DAL.Entites;
 using GymManagement.DAL.Repositories.Implementations;

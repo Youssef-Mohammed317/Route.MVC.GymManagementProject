@@ -1,42 +1,103 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GymManagement.BLL.Interfaces;
+using GymManagement.BLL.Services;
+using GymManagement.BLL.ViewModels.Member;
+using GymManagement.BLL.ViewModels.MemberSession;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymManagement.PL.Controllers
 {
     public class MemberSessionController : Controller
     {
-        public MemberSessionController()
-        {
+        private readonly IMemberSessionService memberSessionService;
 
+        public MemberSessionController(IMemberSessionService _memberSessionService)
+        {
+            memberSessionService = _memberSessionService;
         }
 
         [HttpGet]
         // GET: MemberSession
         public IActionResult Index()
         {
-            return View();
+            var response = memberSessionService.GetMemberSessions();
+
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+
+            return View(response.Data);
+        }
+        [HttpGet]
+        // GET: MemberSession
+        public IActionResult GetMembersForOnGoingSessions([FromRoute] int id)
+        {
+            var response = memberSessionService.GetMembersForSessionsBySessionId(id);
+            ViewBag.SessionId = id;
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+
+            return View(response.Data);
         }
 
         [HttpGet]
-        // GET: MemberSession/Create
-        public IActionResult Create()
+        // GET: MemberSession
+        public IActionResult GetMembersForUpCompingSessions([FromRoute] int id)
         {
-            return View();
+            var response = memberSessionService.GetMembersForSessionsBySessionId(id);
+            ViewBag.SessionId = id;
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+
+            return View(response.Data);
+        }
+
+        [HttpGet]
+        // GET: MemberSession/CreateMemberSession
+        public IActionResult CreateMemberSession([FromRoute] int id)
+        {
+            ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? "";
+            ViewBag.ErrorMessage = TempData["ErrorMessage"] ?? "";
+            var response = memberSessionService.GetMembers();
+            return View(new CreateMemberSessionViewModel
+            {
+                Members = response?.Data!,
+                SessionId = id
+            });
         }
 
         [HttpPost]
-        // POST: MemberSession/Create
-        public IActionResult Create(IFormCollection collection)
+        // POST: MemberSession/CreateMemberSession
+        public IActionResult CreateMemberSession([FromRoute] int id, [FromForm] CreateMemberSessionViewModel createModel)
         {
-            try
+            var response = memberSessionService.CreateMemberSession(id, createModel);
+
+            if (response.IsSuccess)
             {
+                TempData["SuccessMessage"] = response.Message;
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                TempData["ErrorMessage"] = response.Message;
+                return View(createModel);
             }
         }
-       
+
+        [HttpPost]
+        // POST: MemberSession/Delete/5
+        public IActionResult DeleteMemberSession([FromRoute] int id)
+        {
+            var response = memberSessionService.DeleteMemberSession(id);
+            if (response.IsSuccess)
+            {
+                TempData["SuccessMessage"] = response.Message;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = response.Message;
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

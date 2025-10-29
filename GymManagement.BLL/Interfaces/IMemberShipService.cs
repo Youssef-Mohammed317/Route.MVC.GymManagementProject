@@ -13,5 +13,6 @@ namespace GymManagement.BLL.Interfaces
         ViewResponse<IEnumerable<MembershipViewModel>> GetAllMemberships();
         ViewResponse<CreateMembershipViewModel> GetDataForCreateMembership();
         ViewResponse<MembershipViewModel> CreateMembership(CreateMembershipViewModel createModel);
+        ViewResponse<MembershipViewModel> DeleteMembership(int id);
     }
 }

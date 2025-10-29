@@ -62,6 +62,36 @@ namespace GymManagement.BLL.Services
             }
             return ViewResponse<MemberViewModel>.Fail("Member Not Found");
         }
+        public ViewResponse<MemberDetailsViewModel> GetMemberDetailsById(int id)
+        {
+            var memberModel = unitOfWork.MemberRepository.GetById(id);
+
+
+
+
+            if (memberModel != null)
+            {
+                var memberDetails = new MemberDetailsViewModel
+                {
+                    Id = memberModel.Id,
+                    Photo = memberModel.Photo,
+                    Name = memberModel.Name,
+                    Email = memberModel.Email,
+                    Phone = memberModel.Phone,
+                    Gender = memberModel.Gender.ToString(),
+                    DateOfBirth = memberModel.DateOfBirth.ToString("yyyy-MM-dd"),
+                    PlanName = memberModel.MemberShips?.FirstOrDefault()?.Plan?.Name! ?? "No Plan Yet",
+                    MembershipStartDate = memberModel.MemberShips?.FirstOrDefault()?.Plan?.Created_at.ToString("yyyy-MM-dd") ?? "No Membership Yet",
+                    MembershipEndDate = memberModel.MemberShips?.FirstOrDefault()?.EndDate.ToString("yyyy-MM-dd") ?? "No Membership Yet",
+                    Address = $"{memberModel.Adderss.BuildingNumber} - {memberModel.Adderss.Street} - {memberModel.Adderss.City}"
+                };
+
+                return ViewResponse<MemberDetailsViewModel>.Success(memberDetails,
+                    "Member Found");
+
+            }
+            return ViewResponse<MemberDetailsViewModel>.Fail("Member Not Found");
+        }
 
         public ViewResponse<MemberViewModel> GetMemberByEmail(string email)
         {

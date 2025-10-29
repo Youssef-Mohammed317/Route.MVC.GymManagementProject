@@ -60,6 +60,21 @@ namespace GymManagement.PL.Controllers
                 return View(createModel);
             }
         }
+        [HttpPost]
+        // POST: Membership/Delete/5
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var response = membershipService.DeleteMembership(id);
+            if (response.IsSuccess)
+            {
+                TempData["SuccessMessage"] = response.Message;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = response.Message;
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
 
     }

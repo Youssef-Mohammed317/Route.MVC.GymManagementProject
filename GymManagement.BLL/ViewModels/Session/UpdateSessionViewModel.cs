@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymManagement.BLL.ViewModels.SessionViewModel
+namespace GymManagement.BLL.ViewModels.Session
 {
     public class UpdateSessionViewModel
     {
@@ -30,6 +30,7 @@ namespace GymManagement.BLL.ViewModels.SessionViewModel
         [Display(Name = "Trainer")]
         public int TrainerId { get; set; }
 
-        public IEnumerable<TrainerSelectModel>? Trainers { get; set; } = Enumerable.Empty<TrainerSelectModel>();
+        public IEnumerable<TrainerSelectModel>? Trainers { get; set; }
+        = new List<TrainerSelectModel>();
     }
 }

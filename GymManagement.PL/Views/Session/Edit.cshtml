@@ -1,6 +1,8 @@
-﻿@using GymManagement.BLL.ViewModels.SessionViewModel
+﻿@using GymManagement.BLL.ViewModels.Session
 @model UpdateSessionViewModel
-
+@{
+	ViewData["Title"] = "Power fitness | Update Session";
+}
 <div class="container mt-4">
 	<header class="mb-4">
 		<h3 class="text-primary-color">Edit Session</h3>
@@ -97,4 +99,39 @@
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const startInput = document.querySelector('input[name="StartDate"]');
+			const endInput = document.querySelector('input[name="EndDate"]');
+
+			if (!startInput || !endInput) return;
+
+			const now = new Date();
+			const localNow = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+				.toISOString()
+				.slice(0, 16); // yyyy-MM-ddTHH:mm
+
+			startInput.min = localNow;
+			endInput.min = localNow;
+
+			if (!startInput.value || startInput.value.startsWith("0001")) {
+				startInput.value = localNow;
+			}
+			if (!endInput.value || endInput.value.startsWith("0001")) {
+				const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
+				const localOneHourLater = new Date(oneHourLater.getTime() - now.getTimezoneOffset() * 60000)
+					.toISOString()
+					.slice(0, 16);
+				endInput.value = localOneHourLater;
+			}
+
+			startInput.addEventListener("change", function () {
+				endInput.min = startInput.value;
+				if (endInput.value && endInput.value < startInput.value) {
+					endInput.value = "";
+				}
+			});
+		});
+	</script>
+
 }

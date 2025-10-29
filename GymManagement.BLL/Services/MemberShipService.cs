@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Execution;
 using AutoMapper.QueryableExtensions;
 using GymManagement.BLL.Interfaces;
 using GymManagement.BLL.ViewModels.Common;
@@ -7,9 +8,11 @@ using GymManagement.BLL.ViewModels.Membership;
 using GymManagement.BLL.ViewModels.Plan;
 using GymManagement.DAL.Entites;
 using GymManagement.DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,6 +52,23 @@ namespace GymManagement.BLL.Services
                 return ViewResponse<MembershipViewModel>.Success(membershipViewModel, "Membership created successfully.");
             }
             return ViewResponse<MembershipViewModel>.Fail("Failed to create membership.");
+        }
+
+        public ViewResponse<MembershipViewModel> DeleteMembership(int id)
+        {
+            var membership = unitOfWork.MembershipRepository.GetById(id);
+            if (membership != null)
+            {
+                unitOfWork.MembershipRepository.Delete(membership);
+
+                if (unitOfWork.SaveChanges() > 0)
+                {
+                    var membershipViewModel = mapper.Map<MembershipViewModel>(membership);
+                    return ViewResponse<MembershipViewModel>.Success(membershipViewModel, "Membership deleted successfully.");
+                }
+                return ViewResponse<MembershipViewModel>.Fail("Failed to delete membership.");
+            }
+            return ViewResponse<MembershipViewModel>.Fail("Membership not found.");
         }
 
         public ViewResponse<IEnumerable<MembershipViewModel>> GetAllMemberships()

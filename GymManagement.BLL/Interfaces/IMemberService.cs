@@ -14,6 +14,7 @@ namespace GymManagement.BLL.Interfaces
         ViewResponse<IEnumerable<MemberViewModel>> GetAllMembers();
         ViewResponse<MemberViewModel> CreateMember(CreateMemberViewModel createModel);
         ViewResponse<MemberViewModel> GetMemberById(int id);
+        ViewResponse<MemberDetailsViewModel> GetMemberDetailsById(int id);
         ViewResponse<HealthRecordViewModel> GetHealthRecordByMemberId(int id);
         ViewResponse<UpdateMemberViewModel> GetMemberByIdForUpdate(int id);
         ViewResponse<MemberViewModel> GetMemberByEmail(string email);
