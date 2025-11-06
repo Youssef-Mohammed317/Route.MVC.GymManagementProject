@@ -5,6 +5,7 @@ using GymManagement.BLL.ViewModels.Common;
 using GymManagement.BLL.ViewModels.Member;
 using GymManagement.DAL.Entites;
 using GymManagement.DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace GymManagement.BLL.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly IAttachmentService attachmentService;
 
-        public MemberService(IUnitOfWork _unitOfWork, IMapper _mapper)
+        public MemberService(IUnitOfWork _unitOfWork, IMapper _mapper, IAttachmentService _attachmentService)
         {
             unitOfWork = _unitOfWork;
             mapper = _mapper;
+            attachmentService = _attachmentService;
         }
 
         public ViewResponse<IEnumerable<MemberViewModel>> GetAllMembers()
@@ -38,7 +41,19 @@ namespace GymManagement.BLL.Services
 
         public ViewResponse<MemberViewModel> CreateMember(CreateMemberViewModel createModel)
         {
+
+
             var memberModel = mapper.Map<CreateMemberViewModel, Member>(createModel);
+
+            var responsefile = attachmentService.Upload("MembersPhotos", createModel.PhotoFile);
+
+            if (!responsefile.IsSuccess)
+            {
+                return ViewResponse<MemberViewModel>.Fail("Failed to upload photo");
+            }
+
+            memberModel.Photo = responsefile?.FileName!;
+            memberModel.PhotoUrl = responsefile?.FileUrl!;
 
             memberModel = unitOfWork.MemberRepository.Create(memberModel);
 
@@ -66,15 +81,13 @@ namespace GymManagement.BLL.Services
         {
             var memberModel = unitOfWork.MemberRepository.GetById(id);
 
-
-
-
             if (memberModel != null)
             {
                 var memberDetails = new MemberDetailsViewModel
                 {
                     Id = memberModel.Id,
-                    Photo = memberModel.Photo,
+                    PhotoName = memberModel.Photo,
+                    PhotoUrl = memberModel.PhotoUrl,
                     Name = memberModel.Name,
                     Email = memberModel.Email,
                     Phone = memberModel.Phone,
@@ -123,14 +136,22 @@ namespace GymManagement.BLL.Services
         {
             var memberModel = unitOfWork.MemberRepository.GetById(id);
 
-
             if (memberModel == null)
             {
                 return ViewResponse<MemberViewModel>.Fail("Member not found");
             }
+
+            var photoname = memberModel.Photo;
+            var photourl = memberModel.PhotoUrl;
+
             memberModel = mapper.Map(updateModel, memberModel);
 
+            memberModel.PhotoUrl = photourl;
+            memberModel.Photo = photoname;
+
             memberModel = unitOfWork.MemberRepository.Update(memberModel);
+
+
             if (unitOfWork.SaveChanges() > 0)
             {
                 return ViewResponse<MemberViewModel>.Success(mapper.Map<MemberViewModel>(memberModel),
@@ -161,8 +182,12 @@ namespace GymManagement.BLL.Services
             var memberModel = unitOfWork.MemberRepository.GetById(id);
             if (memberModel != null)
             {
+                var updateMemberViewModel = mapper.Map<UpdateMemberViewModel>(memberModel);
+                updateMemberViewModel.PhotoUrl = memberModel.PhotoUrl;
+                updateMemberViewModel.PhotoName = memberModel.Photo;
                 return ViewResponse<UpdateMemberViewModel>.Success(
-                    mapper.Map<UpdateMemberViewModel>(memberModel),
+                    updateMemberViewModel
+                    ,
                     "Member Found");
             }
             return ViewResponse<UpdateMemberViewModel>.Fail("Member Not Found");

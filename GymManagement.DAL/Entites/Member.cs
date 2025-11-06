@@ -10,8 +10,8 @@ namespace GymManagement.DAL.Entites
     public class Member : GymUser
     {
         // JoinDate => Created_at
-        public string? Photo { get; set; }
-
+        public string Photo { get; set; }
+        public string PhotoUrl { get; set; }
         #region RelationShips
 
         #region Member - HealthRecord

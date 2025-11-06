@@ -15,10 +15,11 @@ namespace GymManagement.BLL.AutoMapper
         {
             CreateMap<Member, MemberViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.Photo))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone))
+                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.PhotoUrl))
+                .ForMember(dest => dest.PhotoName, opt => opt.MapFrom(src => src.Photo))
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.ToString()))
                 .ReverseMap();
 
@@ -36,7 +37,6 @@ namespace GymManagement.BLL.AutoMapper
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone))
                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
-                .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.Photo))
                 .ForMember(dest => dest.Created_at, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(dest => dest.HealthRecord, opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.Adderss, opt => opt.MapFrom(src => src))
@@ -63,7 +63,6 @@ namespace GymManagement.BLL.AutoMapper
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone))
-               .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.Photo))
                .ForMember(dest => dest.Updated_at, opt => opt.MapFrom(src => DateTime.Now))
                .ForMember(dest => dest.Adderss, opt => opt.MapFrom(src => src))
                .ReverseMap();

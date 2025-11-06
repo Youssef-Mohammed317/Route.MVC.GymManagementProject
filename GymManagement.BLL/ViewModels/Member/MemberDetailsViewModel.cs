@@ -9,7 +9,8 @@ namespace GymManagement.BLL.ViewModels.Member
     public class MemberDetailsViewModel
     {
         public int Id { get; set; }
-        public string? Photo { get; set; }
+        public string PhotoUrl { get; set; }
+        public string PhotoName { get; set; }
         public string Name { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Phone { get; set; } = null!;

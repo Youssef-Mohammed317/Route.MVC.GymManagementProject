@@ -1,9 +1,11 @@
 ﻿using GymManagement.BLL.ViewModels.Common;
 using GymManagement.DAL.Entites.Enums;
 using GymManagement.PL.Common;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,6 +48,9 @@ namespace GymManagement.BLL.ViewModels.Member
         [StringLength(30, MinimumLength = 2, ErrorMessage = "Name Must Be between 2 and 30 char")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "City Can Only Contain Letters")]
         public string City { get; set; } = null!;
-        public string? Photo { get; set; }
+
+
+        public string? PhotoName { get; set; }
+        public string? PhotoUrl { get; set; }
     }
 }
