@@ -4,17 +4,20 @@ using GymManagement.BLL.Interfaces;
 using GymManagement.BLL.Services;
 using GymManagement.DAL.Data.Context;
 using GymManagement.DAL.Data.DataSeed;
+using GymManagement.DAL.Entites;
 using GymManagement.DAL.Repositories.Implementations;
 using GymManagement.DAL.Repositories.Interfaces;
 using GymManagement.PL.Common;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace GymManagement.PL
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,24 @@ namespace GymManagement.PL
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("GymManagementConnectionString"))
                 .UseLazyLoadingProxies();
+            });
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.Password.RequiredLength = 6;
+                config.Password.RequireDigit = false;
+                config.Password.RequireLowercase = false;
+                config.Password.RequireUppercase = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.User.RequireUniqueEmail = true;
+            })
+                .AddEntityFrameworkStores<GymDbContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.LogoutPath = "/Account/Logout";
             });
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -36,6 +57,7 @@ namespace GymManagement.PL
             builder.Services.AddScoped<IMembershipService, MembershipService>();
             builder.Services.AddScoped<IMemberSessionService, MemberSessionService>();
             builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -51,8 +73,11 @@ namespace GymManagement.PL
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<GymDbContext>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                 context.Database.Migrate();
                 GymDbContextDataSeeding.SeedData(context);
+                await IdentityDbContextDataSeeding.SeedData(roleManager, userManager);
             }
 
 
@@ -64,6 +89,8 @@ namespace GymManagement.PL
                 app.UseHsts();
             }
 
+
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRouting();
 
@@ -72,7 +99,7 @@ namespace GymManagement.PL
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Account}/{action=Login}/{id:int?}")
                 .WithStaticAssets();
 
             app.Run();
