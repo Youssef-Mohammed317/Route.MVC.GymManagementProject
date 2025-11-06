@@ -11,6 +11,7 @@ namespace GymManagement.BLL.Interfaces
         ViewResponse<IEnumerable<MemberSelectModel>> GetMembers();
         ViewResponse<IEnumerable<MemberSessionViewModel>> GetMembersForSessionsBySessionId(int id);
         ViewResponse<MemberSessionViewModel> DeleteMemberSession(int id);
+        ViewResponse<MemberSessionViewModel> ToggleAttendance(int id);
         ViewResponse<MemberSessionViewModel> CreateMemberSession(int id, CreateMemberSessionViewModel createModel);
     }
 }

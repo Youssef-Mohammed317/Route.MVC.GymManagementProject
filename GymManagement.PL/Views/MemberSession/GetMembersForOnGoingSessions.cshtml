@@ -9,11 +9,11 @@
 			<h2 class="mb-1 fw-semibold">Session Members</h2>
 			<p class="mb-0 text-light opacity-75">Members That Already Book Session</p>
 		</div>
-		<div class="text-end">
+		@* <div class="text-end">
 			<a asp-action="CreateMemberSession" asp-route-id="@ViewBag.SessionId" asp-controller="MemberSession" class="btn btn-light">
 				<i class="fas fa-plus me-1"></i> New Booking
 			</a>
-		</div>
+		</div> *@
 	</div>
 </header>
 <div class="card shadow-sm">
@@ -37,10 +37,11 @@
 							<td>@memberSession.BookingDate</td>
 							<td>
 								<div class="d-flex justify-content-center gap-1">
-									<form method="post" asp-controller="MemberSession" asp-route-id="@memberSession.Id" asp-action="DeleteMemberSession" class="m-0">
-										<button type="submit" class="btn btn-sm btn-danger"
-												onclick="return confirm('Are you sure you want to cancel this booking?');">
-											<i class="fas fa-times"></i> Cancel
+									<form method="post" asp-controller="MemberSession" asp-route-id="@memberSession.Id" asp-action="ToggleAttendance" class="m-0">
+										<button type="submit" class="btn btn-sm  @(memberSession.IsAttended ?  "btn-danger":"btn-success")"
+												onclick="return confirm('Are you sure you want to @(memberSession.IsAttended ? "Absent" : "Present") this Member Session?');">
+											<i class="fas fa-times"></i> 
+											@(memberSession.IsAttended ? "Absent" : "Present") this member now
 								 		</button>
 									</form>
 								</div>

@@ -96,7 +96,22 @@ namespace GymManagement.PL.Controllers
             {
                 TempData["ErrorMessage"] = response.Message;
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(GetMembersForUpCompingSessions), new { id = response?.Data?.SessionId });
+        }
+        [HttpPost]
+        // POST: MemberSession/ToggleAttendance/5
+        public IActionResult ToggleAttendance([FromRoute] int id)
+        {
+            var response = memberSessionService.ToggleAttendance(id);
+            if (response.IsSuccess)
+            {
+                TempData["SuccessMessage"] = response.Message;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = response.Message;
+            }
+            return RedirectToAction(nameof(GetMembersForOnGoingSessions), new {id = response?.Data?.SessionId});
         }
 
     }

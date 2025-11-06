@@ -15,6 +15,7 @@ namespace GymManagement.BLL.ViewModels.MemberSession
         public int SessionId { get; set; }
         public string MemberName { get; set; }
         public DateTime BookingDate { get; set; }
+        public bool IsAttended { get; set; }
 
         public string Status { get; set; }
     }

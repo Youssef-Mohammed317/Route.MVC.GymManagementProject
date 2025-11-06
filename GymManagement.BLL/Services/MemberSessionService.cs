@@ -92,6 +92,7 @@ namespace GymManagement.BLL.Services
                     MemberId = ms.MemberId,
                     MemberName = ms.Member.Name,
                     SessionId = ms.SessionId,
+                    IsAttended = ms.IsAttended,
                     BookingDate = ms.Created_at,
                     Status = mapper.Map<SessionViewModel>(ms.Session).Status
                 });
@@ -99,5 +100,27 @@ namespace GymManagement.BLL.Services
             return ViewResponse<IEnumerable<MemberSessionViewModel>>.Success(members);
         }
 
+        public ViewResponse<MemberSessionViewModel> ToggleAttendance(int id)
+        {
+            //var session = unitOfWork.SessionRepository.GetById(id);
+            var memberSession = unitOfWork.MemberSessionRepository.GetById(id);
+
+            if (memberSession == null)
+            {
+                return ViewResponse<MemberSessionViewModel>.Fail("Member session not found.");
+            }
+
+            memberSession.IsAttended = !memberSession.IsAttended;
+
+            unitOfWork.MemberSessionRepository.Update(memberSession);
+
+            if (unitOfWork.SaveChanges() > 0)
+            {
+                var memberSessionViewModel = mapper.Map<MemberSessionViewModel>(memberSession);
+                return ViewResponse<MemberSessionViewModel>.Success(memberSessionViewModel, "Attendance status toggled successfully.");
+            }
+
+            return ViewResponse<MemberSessionViewModel>.Fail("Failed to toggle attendance status.");
+        }
     }
 }

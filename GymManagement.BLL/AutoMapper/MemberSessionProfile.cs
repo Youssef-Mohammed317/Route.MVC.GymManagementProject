@@ -18,6 +18,7 @@ namespace GymManagement.BLL.AutoMapper
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.MemberName, opt => opt.MapFrom(src => src.Member.Name))
                 .ForMember(dest => dest.MemberId, opt => opt.MapFrom(src => src.MemberId))
+                .ForMember(dest => dest.IsAttended, opt => opt.MapFrom(src => src.IsAttended))
                 .ForMember(dest => dest.SessionId, opt => opt.MapFrom(src => src.SessionId))
                 .ForMember(dest => dest.BookingDate, opt => opt.MapFrom(src => src.Created_at))
                 .ReverseMap();
