@@ -43,3 +43,6 @@ Applies dependency injection, repository pattern, and service pattern.
 Includes database initialization, configuration, and seeding for a ready-to-run application.
 
 Serves as a first complete project after completing a learning course, showcasing a solid understanding of MVC architecture, structured coding, and practical .NET development skills.
+
+there is a video for the final project
+
