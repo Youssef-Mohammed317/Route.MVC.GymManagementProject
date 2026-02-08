@@ -72,12 +72,12 @@ namespace GymManagement.PL.Controllers
 
             if (response.IsSuccess)
             {
-                TempData["SuccessMessage"] = response.Message;
+                ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? response.Message ?? "";
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                TempData["ErrorMessage"] = response.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] ?? response.Message ?? "";
                 return View(model);
             }
         }
@@ -89,11 +89,11 @@ namespace GymManagement.PL.Controllers
             var response = planService.TogglePlan(id);
             if (response.IsSuccess)
             {
-                TempData["SuccessMessage"] = response.Message;
+                ViewBag.SuccessMessage = TempData["SuccessMessage"] ?? response.Message ?? "";
             }
             else
             {
-                TempData["ErrorMessage"] = response.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] ?? response.Message ?? "";
             }
             return RedirectToAction(nameof(Index));
         }

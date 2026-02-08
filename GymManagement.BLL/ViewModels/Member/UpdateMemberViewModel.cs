@@ -45,7 +45,6 @@ namespace GymManagement.BLL.ViewModels.Member
         public string Street { get; set; } = null!;
 
         [Required(ErrorMessage = "City Is Required")]
-        [StringLength(30, MinimumLength = 2, ErrorMessage = "Name Must Be between 2 and 30 char")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "City Can Only Contain Letters")]
         public string City { get; set; } = null!;
 

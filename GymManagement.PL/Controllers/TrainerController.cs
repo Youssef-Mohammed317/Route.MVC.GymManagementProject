@@ -139,13 +139,12 @@ namespace GymManagement.PL.Controllers
             if (response.IsSuccess)
             {
                 TempData["SuccessMessage"] = response.Message;
-                return RedirectToAction(nameof(Index));
             }
             else
             {
                 TempData["ErrorMessage"] = response.Message;
-                return View();
             }
+                return RedirectToAction(nameof(Index));
 
         }
     }

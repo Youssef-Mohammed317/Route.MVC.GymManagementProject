@@ -16,8 +16,6 @@ namespace GymManagement.BLL.ViewModels.Member
         [Range(0.1, 500, ErrorMessage = "Height Must Be between 0.1 and 500")]
         public decimal Height { get; set; }
         [Required(ErrorMessage = "BloodType Is Required")]
-        [StringLength(30, MinimumLength = 2, ErrorMessage = "BloodType Must Be between 2 and 30 char")]
-
         [RegularExpression(@"^(A|B|AB|O)[+-]$", ErrorMessage = "Blood type must include + or - sign (e.g., A+, O-)")]
         public string BloodType { get; set; } = null!;
         public string? Note { get; set; }

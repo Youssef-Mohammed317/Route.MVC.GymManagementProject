@@ -48,7 +48,6 @@ namespace GymManagement.BLL.ViewModels.Trainer
 
         [Required(ErrorMessage = "Specialty is required")]
         [EnumDataType(typeof(Specialties))]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid specialty")]
         public Specialties Specialties { get; set; }
     }
 }
